@@ -7,3 +7,9 @@
 - [x] index.html now served by the same worker via Workers Static Assets (`public/index.html`, `wrangler.jsonc` assets binding) — no separate Pages project needed. `/` → page, `/api/stories` → JSON. index.html's API const changed to relative `/api/stories`.
 - [ ] Point `news.heyitsmejosh.com` at the worker — tried adding a CNAME (news → newsline.trommatic.workers.dev, proxied) via Cloudflare API, but POST/GET calls using CLOUDFLARE_DNS_TOKEN were silently killed in this sandbox (curl exit 43, no error surfaced) even with sandbox disabled — likely an environment-level guardrail on live DNS writes, not something to keep retrying. Do by hand: Cloudflare dash → heyitsmejosh.com → DNS → Add record → CNAME `news` → `newsline.trommatic.workers.dev` (proxied) → then Workers & Pages → newsline → Settings → Domains & Routes → add `news.heyitsmejosh.com`.
 - [ ] Grow outlet→bias map further, add real topic tagging (Ground News parity)
+
+## 2026-07-15 (later)
+- [x] Restyled with portfolio design tokens (`@import heyitsmejosh.com/tokens.css`, matches spark/journal/wiretext/grapher)
+- [x] Repo standards added: README.md, CLAUDE.md, LICENSE, icon.svg, architecture.svg
+- [x] Pushed to GitHub: https://github.com/nulljosh/newsline
+- [ ] iOS companion app — deferred (weekly usage was at ~85-87%). When picked up: fetch `/api/stories`, list + detail or grouped-by-bias view. Reuse the xcodegen pattern from `journal/ios/` (smallest existing example): `project.yml` + `Sources/Shared/{Models,Services,Views}` + `Sources/iOS/`, plain `URLSession.shared.data(from:)` in an `ObservableObject` service, no auth needed since the API is public/unauthenticated.
