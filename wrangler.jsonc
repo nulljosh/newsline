@@ -2,6 +2,10 @@
   "name": "newsline",
   "main": "worker.js",
   "compatibility_date": "2026-07-01",
+  "workers_dev": true,
+  "routes": [
+    { "pattern": "news.heyitsmejosh.com/*", "zone_id": "6cea109e1986f4a1ab47a94591961e19" }
+  ],
   "assets": {
     "directory": "./public",
     "binding": "ASSETS"
