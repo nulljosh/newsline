@@ -58,10 +58,11 @@ function cluster(items) {
   }
   return clusters
     .sort((a, b) => b.items.length - a.items.length)
-    .map(c => ({
-      title: c.items[0].title,
-      sources: c.items.map(({ title, link, outlet, bias }) => ({ title, link, outlet, bias })),
-    }));
+    .map(c => {
+      const sources = c.items.map(({ title, link, outlet, bias }) => ({ title, link, outlet, bias }));
+      const sides = new Set(sources.map(s => s.bias < 0 ? 'l' : s.bias > 0 ? 'r' : 'c'));
+      return { title: c.items[0].title, sources, blindspot: sides.size === 1 && sources.length > 1 };
+    });
 }
 
 export default {

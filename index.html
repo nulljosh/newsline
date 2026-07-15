@@ -29,29 +29,59 @@
   .src:last-child { border-bottom: none; }
   .src .o { color: var(--text2); font-size: .8rem; }
   .muted { color: var(--text2); }
+  .tabs { display: flex; gap: .4rem; margin-top: 1rem; flex-wrap: wrap; }
+  .tab { border: 1px solid var(--border); background: var(--bg2); color: var(--text2); font-size: .8rem;
+    padding: .35rem .7rem; border-radius: 999px; cursor: pointer; }
+  .tab.active { color: var(--bg); background: var(--text); border-color: var(--text); }
+  .blindspot { display: inline-block; font-size: .7rem; color: var(--right); border: 1px solid var(--right);
+    border-radius: 999px; padding: .1rem .5rem; margin-left: .5rem; vertical-align: middle; }
+  input#q { width: 100%; margin-top: 1rem; padding: .6rem .8rem; border-radius: 10px; border: 1px solid var(--border);
+    background: var(--bg2); color: var(--text); font-size: .9rem; }
 </style>
 </head>
 <body>
 <h1>Newsline</h1>
 <p class="updated" id="updated">Loading stories…</p>
+<input id="q" type="search" placeholder="Search stories…">
+<div class="tabs" id="tabs">
+  <button class="tab active" data-f="all">All</button>
+  <button class="tab" data-f="l">Left-covered</button>
+  <button class="tab" data-f="c">Center-covered</button>
+  <button class="tab" data-f="r">Right-covered</button>
+  <button class="tab" data-f="blindspot">Blindspots</button>
+</div>
 <div id="stories"></div>
 <script>
 const API = 'https://newsline.trommatic.workers.dev';
 
 function side(bias) { return bias < 0 ? 'l' : bias > 0 ? 'r' : 'c'; }
 
-fetch(API).then(r => r.json()).then(({ updated, stories }) => {
-  document.getElementById('updated').textContent =
-    `${stories.length} stories · updated ${new Date(updated).toLocaleTimeString()}`;
+let allStories = [];
+let filter = 'all';
+let query = '';
+
+function render() {
   const root = document.getElementById('stories');
-  for (const s of stories) {
+  root.innerHTML = '';
+  const q = query.trim().toLowerCase();
+  const filtered = allStories.filter(s => {
+    if (q && !s.title.toLowerCase().includes(q)) return false;
+    if (filter === 'blindspot') return s.blindspot;
+    if (filter === 'all') return true;
+    return s.sources.some(x => side(x.bias) === filter);
+  });
+  if (!filtered.length) {
+    root.innerHTML = '<p class="muted">No stories match.</p>';
+    return;
+  }
+  for (const s of filtered) {
     const n = { l: 0, c: 0, r: 0 };
     for (const x of s.sources) n[side(x.bias)]++;
     const total = s.sources.length;
     const el = document.createElement('div');
     el.className = 'story';
     el.innerHTML = `
-      <h2>${s.title}</h2>
+      <h2>${s.title}${s.blindspot ? '<span class="blindspot">blindspot</span>' : ''}</h2>
       <div class="bar">
         <div class="l" style="width:${n.l / total * 100}%"></div>
         <div class="c" style="width:${n.c / total * 100}%"></div>
@@ -63,6 +93,23 @@ fetch(API).then(r => r.json()).then(({ updated, stories }) => {
       }</details>`;
     root.appendChild(el);
   }
+}
+
+document.getElementById('tabs').addEventListener('click', e => {
+  const btn = e.target.closest('.tab');
+  if (!btn) return;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  filter = btn.dataset.f;
+  render();
+});
+document.getElementById('q').addEventListener('input', e => { query = e.target.value; render(); });
+
+fetch(API).then(r => r.json()).then(({ updated, stories }) => {
+  allStories = stories;
+  document.getElementById('updated').textContent =
+    `${stories.length} stories · updated ${new Date(updated).toLocaleTimeString()}`;
+  render();
 }).catch(() => {
   document.getElementById('updated').textContent = 'Failed to load stories.';
 });
