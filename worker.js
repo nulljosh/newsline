@@ -89,7 +89,7 @@ export default {
         headers: {
           'content-type': 'application/json',
           'access-control-allow-origin': '*',
-          'cache-control': 'public, max-age=600',
+          'cache-control': 'public, max-age=120',
         },
       });
       ctx.waitUntil(cache.put(cacheKey, res.clone()));
