@@ -33,19 +33,27 @@
     border-radius: var(--radius-pill); padding: .1rem .5rem; margin-left: .5rem; vertical-align: middle; }
   input#q { width: 100%; margin-top: 1rem; padding: .6rem .8rem; border-radius: var(--radius-lg); border: 1px solid var(--border);
     background: var(--bg2); color: var(--text); font-size: .9rem; }
+  select#src { margin-top: .6rem; padding: .4rem .6rem; border-radius: var(--radius-lg); border: 1px solid var(--border);
+    background: var(--bg2); color: var(--text); font-size: .85rem; }
+  .item { display: block; padding: .7rem 0; border-bottom: 1px solid var(--border); text-decoration: none; color: var(--text); }
+  .item:hover h2 { color: var(--accent); }
+  .item h2 { font-size: 1rem; margin: 0 0 .2rem; line-height: 1.35; font-weight: 500; }
+  .item .o { font-size: .75rem; color: var(--text2); }
 </style>
 </head>
 <body>
 <h1>Newsline</h1>
 <p class="updated" id="updated">Loading stories…</p>
-<input id="q" type="search" placeholder="Search stories…">
+<input id="q" type="search" placeholder="Search headlines…">
 <div class="tabs" id="tabs">
-  <button class="tab active" data-f="all">All</button>
+  <button class="tab active" data-f="latest">Latest</button>
+  <button class="tab" data-f="all">By story</button>
   <button class="tab" data-f="l">Left-covered</button>
   <button class="tab" data-f="c">Center-covered</button>
   <button class="tab" data-f="r">Right-covered</button>
   <button class="tab" data-f="blindspot">Blindspots</button>
 </div>
+<select id="src"><option value="">All sources</option></select>
 <div id="stories"></div>
 <script>
 const API = '/api/stories';
@@ -53,14 +61,37 @@ const API = '/api/stories';
 function side(bias) { return bias < 0 ? 'l' : bias > 0 ? 'r' : 'c'; }
 
 let allStories = [];
-let filter = 'all';
+let allLatest = [];
+let filter = 'latest';
 let query = '';
+let source = '';
+
+const timeAgo = ts => {
+  if (!ts) return '';
+  const m = Math.round((Date.now() - ts) / 60000);
+  if (m < 60) return `${m}m ago`;
+  if (m < 1440) return `${Math.round(m / 60)}h ago`;
+  return `${Math.round(m / 1440)}d ago`;
+};
+
+function renderLatest() {
+  const root = document.getElementById('stories');
+  const q = query.trim().toLowerCase();
+  const items = allLatest.filter(x =>
+    (!source || x.outlet === source) && (!q || x.title.toLowerCase().includes(q)));
+  root.innerHTML = items.length
+    ? items.map(x => `<a class="item" href="${x.link}" target="_blank" rel="noopener">
+        <h2>${x.title}</h2><span class="o">${x.outlet}${x.ts ? ' · ' + timeAgo(x.ts) : ''}</span></a>`).join('')
+    : '<p class="muted">No headlines match.</p>';
+}
 
 function render() {
+  if (filter === 'latest') return renderLatest();
   const root = document.getElementById('stories');
   root.innerHTML = '';
   const q = query.trim().toLowerCase();
   const filtered = allStories.filter(s => {
+    if (source && !s.sources.some(x => x.outlet === source)) return false;
     if (q && !s.title.toLowerCase().includes(q)) return false;
     if (filter === 'blindspot') return s.blindspot;
     if (filter === 'all') return true;
@@ -100,11 +131,17 @@ document.getElementById('tabs').addEventListener('click', e => {
   render();
 });
 document.getElementById('q').addEventListener('input', e => { query = e.target.value; render(); });
+document.getElementById('src').addEventListener('change', e => { source = e.target.value; render(); });
 
-fetch(API).then(r => r.json()).then(({ updated, stories }) => {
+fetch(API).then(r => r.json()).then(({ updated, stories, latest }) => {
   allStories = stories;
+  allLatest = latest || [];
+  const sel = document.getElementById('src');
+  [...new Set(allLatest.map(x => x.outlet))].sort().forEach(o => {
+    sel.insertAdjacentHTML('beforeend', `<option value="${o}">${o}</option>`);
+  });
   document.getElementById('updated').textContent =
-    `${stories.length} stories · updated ${new Date(updated).toLocaleTimeString()}`;
+    `${allLatest.length} headlines · updated ${new Date(updated).toLocaleTimeString()}`;
   render();
 }).catch(() => {
   document.getElementById('updated').textContent = 'Failed to load stories.';

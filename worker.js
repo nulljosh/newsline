@@ -17,17 +17,20 @@ const FEEDS = [
   ['Fox News', 2, 'https://moxie.foxnews.com/google-publisher/latest.xml'],
   ['NY Post', 2, 'https://nypost.com/feed/'],
   ['Daily Wire', 2, 'https://www.dailywire.com/feeds/rss.xml'],
+  ['Hacker News', 0, 'https://hnrss.org/frontpage'], // tech, no political lean
 ];
 
 const STOP = new Set('the a an of to in on for and or as at by is are was with after over from amid says say new'.split(' '));
 
-function parseItems(xml, outlet, bias) {
+export function parseItems(xml, outlet, bias) {
   const items = [];
   for (const m of xml.matchAll(/<item[\s\S]*?<\/item>/g)) {
     const block = m[0];
     const title = (block.match(/<title>(?:<!\[CDATA\[)?([\s\S]*?)(?:\]\]>)?<\/title>/) || [])[1];
     const link = (block.match(/<link>(?:<!\[CDATA\[)?([\s\S]*?)(?:\]\]>)?<\/link>/) || [])[1];
-    if (title && link) items.push({ title: title.trim(), link: link.trim(), outlet, bias });
+    const date = (block.match(/<(?:pubDate|dc:date|published|updated)>([\s\S]*?)<\/(?:pubDate|dc:date|published|updated)>/) || [])[1];
+    const ts = date ? Date.parse(date.trim()) : NaN;
+    if (title && link) items.push({ title: title.trim(), link: link.trim(), outlet, bias, ts: isNaN(ts) ? 0 : ts });
     if (items.length >= 25) break;
   }
   return items;
@@ -44,7 +47,12 @@ function overlap(a, b) {
   return n / Math.min(a.size, b.size);
 }
 
-function cluster(items) {
+// flat reverse-chron reader across every source (dateless items sink to bottom)
+export function latest(items) {
+  return [...items].sort((a, b) => b.ts - a.ts).slice(0, 120);
+}
+
+export function cluster(items) {
   const clusters = [];
   for (const item of items) {
     const kw = keywords(item.title);
@@ -77,7 +85,7 @@ export default {
         return parseItems(await r.text(), outlet, bias);
       }));
       const items = results.flatMap(r => r.status === 'fulfilled' ? r.value : []);
-      res = new Response(JSON.stringify({ updated: Date.now(), stories: cluster(items).slice(0, 60) }), {
+      res = new Response(JSON.stringify({ updated: Date.now(), stories: cluster(items).slice(0, 60), latest: latest(items) }), {
         headers: {
           'content-type': 'application/json',
           'access-control-allow-origin': '*',
