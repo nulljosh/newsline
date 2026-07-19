@@ -77,7 +77,7 @@ export default {
   async fetch(req, env, ctx) {
     if (!new URL(req.url).pathname.startsWith('/api/stories')) return env.ASSETS.fetch(req);
     const cache = caches.default;
-    const cacheKey = new Request(new URL(req.url).origin + '/stories');
+    const cacheKey = new Request(new URL(req.url).origin + '/stories-v2'); // bump when response shape changes
     let res = await cache.match(cacheKey);
     if (!res) {
       const results = await Promise.allSettled(FEEDS.map(async ([outlet, bias, url]) => {
