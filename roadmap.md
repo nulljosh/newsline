@@ -13,3 +13,6 @@
 - [x] Repo standards added: README.md, CLAUDE.md, LICENSE, icon.svg, architecture.svg
 - [x] Pushed to GitHub: https://github.com/nulljosh/newsline
 - [ ] iOS companion app — deferred (weekly usage was at ~85-87%). When picked up: fetch `/api/stories`, list + detail or grouped-by-bias view. Reuse the xcodegen pattern from `journal/ios/` (smallest existing example): `project.yml` + `Sources/Shared/{Models,Services,Views}` + `Sources/iOS/`, plain `URLSession.shared.data(from:)` in an `ObservableObject` service, no auth needed since the API is public/unauthenticated.
+
+## From NewsLine.pdf (imported 2026-07-19)
+- [x] Rename wiki entry to match real GitHub name — done 2026-07-19: renamed `wiki/pages/news-app.md` → `wiki/pages/newsline.md`, refreshed content to reflect shipped v0.2.0 state (was stale "concept, rebuild from scratch" copy). Note: could not commit — the Obsidian vault path (`~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Code/wiki/pages/`) isn't a git repo on this machine; the tracked `notes` repo (`~/Documents/Code/notes`, github nulljosh/notes) has a different structure (`notes/pages/` and `notes/notes/*.md`, no `wiki/pages/`) — the wiki deploy pipeline referenced by the /work skill needs verifying, it may point at a path that doesn't match the actual notes repo layout.
