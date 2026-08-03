@@ -18,6 +18,7 @@ const FEEDS = [
   ['NY Post', 2, 'https://nypost.com/feed/'],
   ['Daily Wire', 2, 'https://www.dailywire.com/feeds/rss.xml'],
   ['Hacker News', 0, 'https://hnrss.org/frontpage'], // tech, no political lean
+  ['Daring Fireball', 0, 'https://daringfireball.net/feeds/main'], // tech commentary, no political lean
   ['NBC News', -1, 'https://feeds.nbcnews.com/nbcnews/public/news'],
   ['Washington Post', -1, 'http://feeds.washingtonpost.com/rss/world'],
   ['Wall Street Journal', 1, 'https://feeds.a.dj.com/rss/RSSWorldNews.xml'],
