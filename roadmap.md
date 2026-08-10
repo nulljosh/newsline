@@ -20,6 +20,7 @@ Dropped 5 dead feeds (all silently returning nothing): Reuters (public RSS disco
 
 ## Next
 
-- [ ] Submit the MCP server to public registries once it shows real usage in Cloudflare analytics. Manual step.
+- [x] Submit the MCP server to public registries once it shows real usage in Cloudflare analytics. DONE 2026-08-09: published to official registry as `io.github.nulljosh/newsline` (status active, remote streamable-http), updated repo description and GitHub topics, advertised the API + MCP server on the site (footer + docs links), drafted Show HN / r/mcp posts and opened PR to awesome-mcp-servers list.
+- [ ] Post to Show HN and r/mcp. Drafts ready in LAUNCH.md, waiting on posting.
 - [ ] Re-check the 5 dropped feeds occasionally; re-add any that publish an official feed again.
 - [ ] iOS companion app — deferred. When picked up: fetch `/api/stories`, list + detail or grouped-by-bias view. Reuse the xcodegen pattern from `journal/ios/` (smallest existing example): `project.yml` + `Sources/Shared/{Models,Services,Views}` + `Sources/iOS/`, plain `URLSession.shared.data(from:)` in an `ObservableObject` service, no auth needed since the API is public/unauthenticated.
