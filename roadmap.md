@@ -24,3 +24,10 @@ Dropped 5 dead feeds (all silently returning nothing): Reuters (public RSS disco
 - [ ] Post to Show HN and r/mcp. Drafts ready in LAUNCH.md, waiting on posting.
 - [ ] Re-check the 5 dropped feeds occasionally; re-add any that publish an official feed again.
 - [ ] iOS companion app — deferred. When picked up: fetch `/api/stories`, list + detail or grouped-by-bias view. Reuse the xcodegen pattern from `journal/ios/` (smallest existing example): `project.yml` + `Sources/Shared/{Models,Services,Views}` + `Sources/iOS/`, plain `URLSession.shared.data(from:)` in an `ObservableObject` service, no auth needed since the API is public/unauthenticated.
+
+## awesome-mcp-servers PR #11830 (2026-08-09)
+github-actions bot requires, before merge:
+1. List newsline on Glama — https://glama.ai/mcp/servers (GitHub OAuth, browser-only; no public submit API). Remote hosted endpoint, so use the connectors path https://glama.ai/mcp/connectors, not the Dockerfile flow.
+2. Then add badge to the PR body:
+   [![nulljosh/newsline MCP server](https://glama.ai/mcp/servers/nulljosh/newsline/badges/score.svg)](https://glama.ai/mcp/servers/nulljosh/newsline)
+Verified 2026-08-09: Glama API + badge URL both 404, not listed yet.
