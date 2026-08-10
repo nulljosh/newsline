@@ -1,0 +1,144 @@
+openapi: 3.1.0
+info:
+  title: Newsline
+  version: 0.3.0
+  summary: Headlines from 17 outlets with political bias tags and blindspot detection.
+  description: |
+    A free, unauthenticated JSON API for current news headlines across the political
+    spectrum. Every source carries a bias score from -2 (left) to +2 (right); 0 is center
+    or non-political. A story cluster is flagged `blindspot` when more than one outlet
+    covered it but all of them sit on the same side.
+
+    Bias scores are hand-assigned by the author, not a third-party rating.
+
+    No API key and no rate limit. Feeds are re-pulled at most every 2 minutes; responses
+    are sent no-store. Also available as an MCP server at `/mcp`.
+  license:
+    name: MIT
+    identifier: MIT
+  contact:
+    email: trommatic@icloud.com
+
+servers:
+  - url: https://news.heyitsmejosh.com
+
+paths:
+  /api/stories:
+    get:
+      operationId: getStories
+      summary: Current headlines, flat and/or clustered by story.
+      description: |
+        `bias` and `outlet` select which clusters are returned but never remove sources
+        from within them — a cluster's value is the cross-outlet comparison.
+      parameters:
+        - name: view
+          in: query
+          description: Flat reverse-chronological feed, clustered by story, or both.
+          schema:
+            type: string
+            enum: [latest, stories, both]
+            default: both
+        - name: outlet
+          in: query
+          description: Restrict to a single outlet, e.g. `Hacker News`.
+          schema:
+            type: string
+        - name: bias
+          in: query
+          description: Restrict to outlets of one political lean.
+          schema:
+            type: string
+            enum: [left, center, right]
+        - name: blindspot
+          in: query
+          description: Return only stories covered by a single side.
+          schema:
+            type: boolean
+        - name: q
+          in: query
+          description: Case-insensitive substring match on headline text.
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Maximum results. Defaults to 60 clusters / 120 headlines.
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 200
+      responses:
+        '200':
+          description: Headlines matching the given filters.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [updated]
+                properties:
+                  updated:
+                    type: integer
+                    format: int64
+                    description: Epoch milliseconds when the feeds were last pulled.
+                  stories:
+                    type: array
+                    description: Present unless `view=latest`.
+                    items:
+                      $ref: '#/components/schemas/Story'
+                  latest:
+                    type: array
+                    description: Present unless `view=stories`.
+                    items:
+                      $ref: '#/components/schemas/Headline'
+
+components:
+  schemas:
+    Headline:
+      type: object
+      required: [title, link, outlet, bias, ts]
+      properties:
+        title:
+          type: string
+        link:
+          type: string
+          format: uri
+        outlet:
+          type: string
+        bias:
+          $ref: '#/components/schemas/Bias'
+        ts:
+          type: integer
+          format: int64
+          description: >-
+            Publication time in epoch milliseconds, or 0 when the source feed
+            published no date. Dateless items sort to the bottom.
+    Story:
+      type: object
+      required: [title, sources, blindspot]
+      properties:
+        title:
+          type: string
+          description: Headline of the first outlet to be clustered into this story.
+        blindspot:
+          type: boolean
+          description: True when every source covering the story shares one political side.
+        sources:
+          type: array
+          minItems: 1
+          items:
+            type: object
+            required: [title, link, outlet, bias]
+            properties:
+              title:
+                type: string
+              link:
+                type: string
+                format: uri
+              outlet:
+                type: string
+              bias:
+                $ref: '#/components/schemas/Bias'
+    Bias:
+      type: integer
+      minimum: -2
+      maximum: 2
+      description: -2 left, -1 lean left, 0 center or non-political, 1 lean right, 2 right.

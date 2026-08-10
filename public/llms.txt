@@ -1,0 +1,97 @@
+# Newsline
+
+> A free, unauthenticated JSON API for current headlines from 17 news outlets across the
+> political spectrum, with left/center/right bias tags and blindspot detection — stories
+> covered by only one side. Also exposed as an MCP server.
+
+Newsline polls 17 RSS feeds every 2 minutes at the edge and returns two views of the same
+pull: a flat reverse-chronological feed, and headlines clustered by story so you can see how
+different outlets covered the same event.
+
+Every source carries a bias score from -2 (left) to +2 (right). 0 means center, or
+non-political in the case of tech outlets like Hacker News and Daring Fireball. A cluster is
+flagged `blindspot: true` when more than one outlet covered it but all of them sit on the
+same side — i.e. one audience is not hearing about it.
+
+Bias scores are the author's hand assignments, not a third-party rating. Treat them as a
+rough lean, not a measurement.
+
+## API
+
+Base: https://news.heyitsmejosh.com
+
+- `GET /api/stories` — headlines. All parameters optional.
+  - `view` — `latest` (flat feed), `stories` (clustered), or `both`. Default `both`.
+  - `outlet` — restrict to one outlet, e.g. `Hacker News`.
+  - `bias` — `left`, `center`, or `right`.
+  - `blindspot` — `true` to return only one-sided stories.
+  - `q` — case-insensitive substring match on headline text.
+  - `limit` — max results, capped at 200.
+
+No API key, no rate limit, CORS open to all origins. Feeds are re-pulled at most every
+2 minutes; responses are sent `no-store`, so every request reflects your exact filters.
+
+Note on filtering: `bias` and `outlet` select *which clusters* to return but never strip
+sources out of them — a cluster's whole value is the cross-outlet comparison.
+
+### Examples
+
+```
+curl 'https://news.heyitsmejosh.com/api/stories'
+curl 'https://news.heyitsmejosh.com/api/stories?view=latest&outlet=Hacker%20News&limit=10'
+curl 'https://news.heyitsmejosh.com/api/stories?view=stories&blindspot=true'
+curl 'https://news.heyitsmejosh.com/api/stories?view=latest&bias=right&q=budget'
+```
+
+### Response
+
+```json
+{
+  "updated": 1754700000000,
+  "stories": [
+    {
+      "title": "Fed holds rates steady",
+      "blindspot": false,
+      "sources": [
+        { "title": "Fed holds rates steady", "link": "https://…", "outlet": "CNN", "bias": -1 },
+        { "title": "Fed refuses to cut rates", "link": "https://…", "outlet": "Fox News", "bias": 2 }
+      ]
+    }
+  ],
+  "latest": [
+    { "title": "Fed holds rates steady", "link": "https://…", "outlet": "CNN", "bias": -1, "ts": 1754699000000 }
+  ]
+}
+```
+
+`ts` is epoch milliseconds, or `0` when the source feed published no date — those items sort
+to the bottom of `latest`.
+
+## MCP
+
+Streamable HTTP endpoint: https://news.heyitsmejosh.com/mcp
+
+```
+claude mcp add --transport http newsline https://news.heyitsmejosh.com/mcp
+```
+
+Tools:
+
+- `get_news` — params `view`, `outlet`, `bias`, `q`, `limit`.
+- `get_blindspots` — params `limit`. Returns only one-sided stories.
+
+Stateless, no authentication.
+
+## Outlets
+
+CBC, The Guardian, CNN, NPR, BBC, Global News, National Post, Fox News, NY Post,
+Daily Wire, Hacker News, Daring Fireball, NBC News, Wall Street Journal,
+New York Post Opinion, Vancouver Sun, The Province.
+
+## Optional
+
+- OpenAPI spec: https://news.heyitsmejosh.com/openapi.yaml
+- Source: https://github.com/nulljosh/newsline
+- Security contact: https://news.heyitsmejosh.com/.well-known/security.txt
+- License: MIT. Headlines and links belong to their publishers; Newsline stores nothing and
+  links out to the original article.
