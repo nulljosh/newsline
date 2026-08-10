@@ -39,6 +39,15 @@
   .item:hover h2 { color: var(--accent); }
   .item h2 { font-size: 1rem; margin: 0 0 .2rem; line-height: 1.35; font-weight: 500; }
   .item .o { font-size: .75rem; color: var(--text2); }
+  footer { margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid var(--border); font-size: .85rem; color: var(--text2); }
+  footer h2 { font-size: .95rem; color: var(--text); margin: 0 0 .4rem; font-weight: 500; }
+  footer p { margin: 0 0 .6rem; line-height: 1.5; }
+  footer code { font-family: var(--font-mono, ui-monospace, monospace); font-size: .8rem; background: var(--bg2);
+    border: 1px solid var(--border); border-radius: var(--radius-lg); padding: .5rem .7rem; display: block;
+    overflow-x: auto; white-space: pre; color: var(--text); }
+  footer a { color: var(--accent); }
+  footer .links { margin-top: .8rem; }
+  footer .links a { margin-right: .9rem; white-space: nowrap; }
 </style>
 </head>
 <body>
@@ -55,6 +64,20 @@
 </div>
 <select id="src"><option value="">All sources</option></select>
 <div id="stories"></div>
+
+<footer>
+  <h2>Also an API</h2>
+  <p>Everything on this page is public JSON — bias tags, blindspot flags and all. No key, no rate limit.</p>
+  <code>curl 'https://news.heyitsmejosh.com/api/stories?view=stories&amp;blindspot=true'</code>
+  <p class="links" style="margin-top:1rem">Or add it to your agent as an MCP server:</p>
+  <code>claude mcp add --transport http newsline https://news.heyitsmejosh.com/mcp</code>
+  <p class="links">
+    <a href="/llms.txt">llms.txt</a>
+    <a href="/openapi.yaml">openapi.yaml</a>
+    <a href="https://github.com/nulljosh/newsline">source</a>
+  </p>
+</footer>
+
 <script>
 const API = '/api/stories';
 
