@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Newsline for iPhone, iPad and Mac</title>
+<meta name="description" content="Headlines from 17 outlets across the political spectrum, with left/center/right coverage bars and blindspot detection. Free, no account, no tracking.">
+<link rel="canonical" href="https://news.heyitsmejosh.com/app">
+<style>
+  @import url('https://heyitsmejosh.com/tokens.css');
+  :root { --left: var(--navy); --center: var(--text3); --right: #c0392b; }
+  * { box-sizing: border-box; }
+  body { font-family: var(--font-body); background: var(--bg); color: var(--text);
+    max-width: 720px; margin: 0 auto; padding: 6vh 1rem 4rem; line-height: 1.5; }
+  a { color: var(--accent); }
+  .icon { width: 72px; height: 72px; border-radius: 18px; }
+  h1 { font-size: 2rem; letter-spacing: -.03em; margin: 1.25rem 0 .5rem; }
+  .lede { font-size: 1.05rem; color: var(--text2); margin: 0 0 1.5rem; max-width: 34rem; }
+  .cta { display: flex; gap: .6rem; flex-wrap: wrap; align-items: center; }
+  .btn { display: inline-block; text-decoration: none; font-size: .9rem; padding: .6rem 1.1rem;
+    border-radius: var(--radius-pill); border: 1px solid var(--text); background: var(--text); color: var(--bg); }
+  .btn.ghost { background: transparent; color: var(--text); border-color: var(--border); }
+  .note { font-size: .8rem; color: var(--text2); margin-top: .7rem; }
+  .demo { border: 1px solid var(--border); background: var(--bg2); border-radius: var(--radius-lg);
+    padding: 1rem 1.25rem; margin: 2.5rem 0 0; }
+  .demo h2 { font-size: 1.02rem; margin: 0 0 .5rem; line-height: 1.35; }
+  .bar { display: flex; height: 6px; border-radius: 3px; overflow: hidden; margin: .5rem 0; background: var(--border); }
+  .bar .l { background: var(--left); flex: 3; } .bar .c { background: var(--center); flex: 2; } .bar .r { background: var(--right); flex: 1; }
+  .counts { font-size: .75rem; color: var(--text2); }
+  .tag { display: inline-block; font-size: .7rem; color: var(--right); border: 1px solid var(--right);
+    border-radius: var(--radius-pill); padding: .1rem .5rem; margin-left: .4rem; }
+  .features { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-top: 2.5rem; }
+  .features h3 { font-size: .95rem; margin: 0 0 .3rem; font-weight: 600; }
+  .features p { margin: 0; font-size: .9rem; color: var(--text2); }
+  footer { margin-top: 3.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border);
+    font-size: .85rem; color: var(--text2); }
+  footer a { margin-right: .9rem; white-space: nowrap; }
+</style>
+</head>
+<body>
+
+<img class="icon" src="/icon.svg" alt="Newsline icon">
+<h1>Read the whole spectrum.</h1>
+<p class="lede">Newsline groups the same story across 17 outlets, shows you how left, center
+and right are covering it, and flags the ones only one side is reporting.
+Free, no account, no tracking, no ads.</p>
+
+<div class="cta">
+  <a class="btn" href="/">Open the web reader</a>
+  <a class="btn ghost" href="https://github.com/nulljosh/newsline">Source on GitHub</a>
+</div>
+<p class="note">iPhone, iPad and Mac apps are in review. This page will carry the App Store link.</p>
+
+<div class="demo">
+  <h2>Assad sentenced to death in absentia<span class="tag">example</span></h2>
+  <div class="bar"><div class="l"></div><div class="c"></div><div class="r"></div></div>
+  <div class="counts">3 left · 2 center · 1 right — 6 sources</div>
+</div>
+
+<div class="features">
+  <div>
+    <h3>Coverage bars</h3>
+    <p>Every story shows the proportion of left, center and right outlets carrying it, before you click.</p>
+  </div>
+  <div>
+    <h3>Blindspots</h3>
+    <p>Stories only one political side is covering get flagged, so you see what your usual sources leave out.</p>
+  </div>
+  <div>
+    <h3>Save for later</h3>
+    <p>Bookmark a story and its full source list stays on your device, readable offline.</p>
+  </div>
+  <div>
+    <h3>Search and filter</h3>
+    <p>Search every headline at once, or narrow to one lean or one outlet.</p>
+  </div>
+  <div>
+    <h3>Open API</h3>
+    <p>The same feed powers a free JSON API and an MCP server, no key required.</p>
+  </div>
+  <div>
+    <h3>No account</h3>
+    <p>Nothing to sign up for. The apps collect nothing and store saved stories locally.</p>
+  </div>
+</div>
+
+<footer>
+  <a href="/">Reader</a>
+  <a href="/openapi.yaml">API</a>
+  <a href="https://github.com/nulljosh/newsline">GitHub</a>
+  <a href="/privacy">Privacy</a>
+</footer>
+
+</body>
+</html>

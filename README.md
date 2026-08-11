@@ -6,7 +6,17 @@
 
 Headlines from 17 news outlets across the political spectrum, with left/center/right bias tags and **blindspot** detection — stories covered by only one side. Free, unauthenticated, no rate limit.
 
-Three ways in: a [web reader](https://news.heyitsmejosh.com), a JSON API, and an MCP server.
+Four ways in: a [web reader](https://news.heyitsmejosh.com), native [iPhone/iPad/Mac apps](https://news.heyitsmejosh.com/app), a JSON API, and an MCP server.
+
+## Apps
+
+SwiftUI, one codebase for iOS and macOS, in `ios/`. Reads the same public API — no account, no
+tracking, saved stories and the feed cache stay on device.
+
+```
+cd ios && xcodegen generate
+xcodebuild -scheme Newsline-iOS -destination 'generic/platform=iOS Simulator' build
+```
 
 ## MCP
 
