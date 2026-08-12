@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Newsline</title>
+<style>
+  @import url('https://heyitsmejosh.com/tokens.css');
+  :root {
+    --left: var(--navy); --center: var(--text3); --right: #c0392b;
+  }
+  * { box-sizing: border-box; }
+  body { font-family: var(--font-body); background: var(--bg); color: var(--text); max-width: 720px; margin: 0 auto; padding: 4vh 1rem 4rem; }
+  h1 { font-size: 1.4rem; letter-spacing: -.02em; }
+  .updated { color: var(--text2); font-size: .8rem; }
+  .story { border: 1px solid var(--border); background: var(--bg2); border-radius: var(--radius-lg); padding: 1rem 1.25rem; margin-top: 1rem; }
+  .story h2 { font-size: 1.05rem; margin: 0 0 .5rem; line-height: 1.35; }
+  .bar { display: flex; height: 6px; border-radius: 3px; overflow: hidden; margin: .5rem 0; background: var(--border); }
+  .bar div { height: 100%; }
+  .bar .l { background: var(--left); } .bar .c { background: var(--center); } .bar .r { background: var(--right); }
+  .counts { font-size: .75rem; color: var(--text2); }
+  details { margin-top: .5rem; }
+  summary { cursor: pointer; font-size: .85rem; color: var(--accent); }
+  .src { display: block; padding: .35rem 0; font-size: .9rem; color: var(--text); text-decoration: none; border-bottom: 1px solid var(--border); }
+  .src:last-child { border-bottom: none; }
+  .src .o { color: var(--text2); font-size: .8rem; }
+  .muted { color: var(--text2); }
+  .tabs { display: flex; gap: .4rem; margin-top: 1rem; flex-wrap: wrap; }
+  .tab { border: 1px solid var(--border); background: var(--bg2); color: var(--text2); font-size: .8rem;
+    padding: .35rem .7rem; border-radius: var(--radius-pill); cursor: pointer; }
+  .tab.active { color: var(--bg); background: var(--text); border-color: var(--text); }
+  .blindspot { display: inline-block; font-size: .7rem; color: var(--right); border: 1px solid var(--right);
+    border-radius: var(--radius-pill); padding: .1rem .5rem; margin-left: .5rem; vertical-align: middle; }
+  input#q { width: 100%; margin-top: 1rem; padding: .6rem .8rem; border-radius: var(--radius-lg); border: 1px solid var(--border);
+    background: var(--bg2); color: var(--text); font-size: .9rem; }
+  select#src { margin-top: .6rem; padding: .4rem .6rem; border-radius: var(--radius-lg); border: 1px solid var(--border);
+    background: var(--bg2); color: var(--text); font-size: .85rem; }
+  .item { display: block; padding: .7rem 0; border-bottom: 1px solid var(--border); text-decoration: none; color: var(--text); }
+  .item:hover h2 { color: var(--accent); }
+  .item h2 { font-size: 1rem; margin: 0 0 .2rem; line-height: 1.35; font-weight: 500; }
+  .item .o { font-size: .75rem; color: var(--text2); }
+  footer { margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid var(--border); font-size: .85rem; color: var(--text2); }
+  footer h2 { font-size: .95rem; color: var(--text); margin: 0 0 .4rem; font-weight: 500; }
+  footer p { margin: 0 0 .6rem; line-height: 1.5; }
+  footer code { font-family: var(--font-mono, ui-monospace, monospace); font-size: .8rem; background: var(--bg2);
+    border: 1px solid var(--border); border-radius: var(--radius-lg); padding: .5rem .7rem; display: block;
+    overflow-x: auto; white-space: pre; color: var(--text); }
+  footer a { color: var(--accent); }
+  footer .links { margin-top: .8rem; }
+  footer .links a { margin-right: .9rem; white-space: nowrap; }
+</style>
+</head>
+<body>
+<h1>Newsline</h1>
+<p class="updated" id="updated">Loading stories…</p>
+<input id="q" type="search" placeholder="Search headlines…">
+<div class="tabs" id="tabs">
+  <button class="tab active" data-f="latest">Latest</button>
+  <button class="tab" data-f="all">By story</button>
+  <button class="tab" data-f="l">Left-covered</button>
+  <button class="tab" data-f="c">Center-covered</button>
+  <button class="tab" data-f="r">Right-covered</button>
+  <button class="tab" data-f="blindspot">Blindspots</button>
+</div>
+<select id="src"><option value="">All sources</option></select>
+<div id="stories"></div>
+
+<footer>
+  <h2>Also an API</h2>
+  <p>Everything on this page is public JSON — bias tags, blindspot flags and all. No key, no rate limit.</p>
+  <code>curl 'https://news.heyitsmejosh.com/api/stories?view=stories&amp;blindspot=true'</code>
+  <p class="links" style="margin-top:1rem">Or add it to your agent as an MCP server:</p>
+  <code>claude mcp add --transport http newsline https://news.heyitsmejosh.com/mcp</code>
+  <p class="links">
+    <a href="/app">apps</a>
+    <a href="/llms.txt">llms.txt</a>
+    <a href="/openapi.yaml">openapi.yaml</a>
+    <a href="https://github.com/nulljosh/newsline">source</a>
+  </p>
+</footer>
+
+<script>
+const API = '/api/stories';
+
+function side(bias) { return bias < 0 ? 'l' : bias > 0 ? 'r' : 'c'; }
+
+let allStories = [];
+let allLatest = [];
+let filter = 'latest';
+let query = '';
+let source = '';
+
+const timeAgo = ts => {
+  if (!ts) return '';
+  const m = Math.round((Date.now() - ts) / 60000);
+  if (m < 60) return `${m}m ago`;
+  if (m < 1440) return `${Math.round(m / 60)}h ago`;
+  return `${Math.round(m / 1440)}d ago`;
+};
+
+function renderLatest() {
+  const root = document.getElementById('stories');
+  const q = query.trim().toLowerCase();
+  const items = allLatest.filter(x =>
+    (!source || x.outlet === source) && (!q || x.title.toLowerCase().includes(q)));
+  root.innerHTML = items.length
+    ? items.map(x => `<a class="item" href="${x.link}" target="_blank" rel="noopener">
+        <h2>${x.title}</h2><span class="o">${x.outlet}${x.ts ? ' · ' + timeAgo(x.ts) : ''}</span></a>`).join('')
+    : '<p class="muted">No headlines match.</p>';
+}
+
+function render() {
+  if (filter === 'latest') return renderLatest();
+  const root = document.getElementById('stories');
+  root.innerHTML = '';
+  const q = query.trim().toLowerCase();
+  const filtered = allStories.filter(s => {
+    if (source && !s.sources.some(x => x.outlet === source)) return false;
+    if (q && !s.title.toLowerCase().includes(q)) return false;
+    if (filter === 'blindspot') return s.blindspot;
+    if (filter === 'all') return true;
+    return s.sources.some(x => side(x.bias) === filter);
+  });
+  if (!filtered.length) {
+    root.innerHTML = '<p class="muted">No stories match.</p>';
+    return;
+  }
+  for (const s of filtered) {
+    const n = { l: 0, c: 0, r: 0 };
+    for (const x of s.sources) n[side(x.bias)]++;
+    const total = s.sources.length;
+    const el = document.createElement('div');
+    el.className = 'story';
+    el.innerHTML = `
+      <h2>${s.title}${s.blindspot ? '<span class="blindspot">blindspot</span>' : ''}</h2>
+      <div class="bar">
+        <div class="l" style="width:${n.l / total * 100}%"></div>
+        <div class="c" style="width:${n.c / total * 100}%"></div>
+        <div class="r" style="width:${n.r / total * 100}%"></div>
+      </div>
+      <div class="counts">${n.l} left · ${n.c} center · ${n.r} right — ${total} source${total > 1 ? 's' : ''}</div>
+      <details><summary>Coverage</summary>${
+        s.sources.map(x => `<a class="src" href="${x.link}" target="_blank" rel="noopener">${x.title} <span class="o">— ${x.outlet}</span></a>`).join('')
+      }</details>`;
+    root.appendChild(el);
+  }
+}
+
+document.getElementById('tabs').addEventListener('click', e => {
+  const btn = e.target.closest('.tab');
+  if (!btn) return;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  filter = btn.dataset.f;
+  render();
+});
+document.getElementById('q').addEventListener('input', e => { query = e.target.value; render(); });
+document.getElementById('src').addEventListener('change', e => { source = e.target.value; render(); });
+
+fetch(API).then(r => r.json()).then(({ updated, stories, latest }) => {
+  allStories = stories;
+  allLatest = latest || [];
+  const sel = document.getElementById('src');
+  [...new Set(allLatest.map(x => x.outlet))].sort().forEach(o => {
+    sel.insertAdjacentHTML('beforeend', `<option value="${o}">${o}</option>`);
+  });
+  document.getElementById('updated').textContent =
+    `${allLatest.length} headlines · updated ${new Date(updated).toLocaleTimeString()}`;
+  render();
+}).catch(() => {
+  document.getElementById('updated').textContent = 'Failed to load stories.';
+});
+</script>
+</body>
+</html>

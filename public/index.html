@@ -1,175 +1,189 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Newsline</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Newsline — headlines across the political spectrum</title>
+<meta name="description" content="Headlines from 17 news outlets with left/center/right bias tags and blindspot detection: stories covered by only one side.">
+<meta name="theme-color" content="#1f4e79">
+<meta property="og:title" content="Newsline — headlines across the political spectrum">
+<meta property="og:description" content="Headlines from 17 news outlets with left/center/right bias tags and blindspot detection: stories covered by only one side.">
+<meta property="og:type" content="website">
+<link rel="icon" href="icon.svg">
 <style>
-  @import url('https://heyitsmejosh.com/tokens.css');
-  :root {
-    --left: var(--navy); --center: var(--text3); --right: #c0392b;
+@import url("https://heyitsmejosh.com/tokens.css");
+
+:root {
+  --accent: #1f4e79;
+  --accent-soft: #e9eff5;
+  --bg: #ffffff;
+  --bg2: #f7f7f8;
+  --text: #1c1d22;
+  --text2: #5c5f6a;
+  --border: #e6e7ea;
+  --font-body: -apple-system, system-ui, "Inter", "Segoe UI", sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121316;
+    --bg2: #1a1b1f;
+    --text: #ececf0;
+    --text2: rgba(236,236,240,0.62);
+    --border: rgba(236,236,240,0.12);
+    --accent-soft: #141a20;
   }
-  * { box-sizing: border-box; }
-  body { font-family: var(--font-body); background: var(--bg); color: var(--text); max-width: 720px; margin: 0 auto; padding: 4vh 1rem 4rem; }
-  h1 { font-size: 1.4rem; letter-spacing: -.02em; }
-  .updated { color: var(--text2); font-size: .8rem; }
-  .story { border: 1px solid var(--border); background: var(--bg2); border-radius: var(--radius-lg); padding: 1rem 1.25rem; margin-top: 1rem; }
-  .story h2 { font-size: 1.05rem; margin: 0 0 .5rem; line-height: 1.35; }
-  .bar { display: flex; height: 6px; border-radius: 3px; overflow: hidden; margin: .5rem 0; background: var(--border); }
-  .bar div { height: 100%; }
-  .bar .l { background: var(--left); } .bar .c { background: var(--center); } .bar .r { background: var(--right); }
-  .counts { font-size: .75rem; color: var(--text2); }
-  details { margin-top: .5rem; }
-  summary { cursor: pointer; font-size: .85rem; color: var(--accent); }
-  .src { display: block; padding: .35rem 0; font-size: .9rem; color: var(--text); text-decoration: none; border-bottom: 1px solid var(--border); }
-  .src:last-child { border-bottom: none; }
-  .src .o { color: var(--text2); font-size: .8rem; }
-  .muted { color: var(--text2); }
-  .tabs { display: flex; gap: .4rem; margin-top: 1rem; flex-wrap: wrap; }
-  .tab { border: 1px solid var(--border); background: var(--bg2); color: var(--text2); font-size: .8rem;
-    padding: .35rem .7rem; border-radius: var(--radius-pill); cursor: pointer; }
-  .tab.active { color: var(--bg); background: var(--text); border-color: var(--text); }
-  .blindspot { display: inline-block; font-size: .7rem; color: var(--right); border: 1px solid var(--right);
-    border-radius: var(--radius-pill); padding: .1rem .5rem; margin-left: .5rem; vertical-align: middle; }
-  input#q { width: 100%; margin-top: 1rem; padding: .6rem .8rem; border-radius: var(--radius-lg); border: 1px solid var(--border);
-    background: var(--bg2); color: var(--text); font-size: .9rem; }
-  select#src { margin-top: .6rem; padding: .4rem .6rem; border-radius: var(--radius-lg); border: 1px solid var(--border);
-    background: var(--bg2); color: var(--text); font-size: .85rem; }
-  .item { display: block; padding: .7rem 0; border-bottom: 1px solid var(--border); text-decoration: none; color: var(--text); }
-  .item:hover h2 { color: var(--accent); }
-  .item h2 { font-size: 1rem; margin: 0 0 .2rem; line-height: 1.35; font-weight: 500; }
-  .item .o { font-size: .75rem; color: var(--text2); }
-  footer { margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid var(--border); font-size: .85rem; color: var(--text2); }
-  footer h2 { font-size: .95rem; color: var(--text); margin: 0 0 .4rem; font-weight: 500; }
-  footer p { margin: 0 0 .6rem; line-height: 1.5; }
-  footer code { font-family: var(--font-mono, ui-monospace, monospace); font-size: .8rem; background: var(--bg2);
-    border: 1px solid var(--border); border-radius: var(--radius-lg); padding: .5rem .7rem; display: block;
-    overflow-x: auto; white-space: pre; color: var(--text); }
-  footer a { color: var(--accent); }
-  footer .links { margin-top: .8rem; }
-  footer .links a { margin-right: .9rem; white-space: nowrap; }
+}
+:root[data-theme="dark"] {
+  --bg: #121316;
+  --bg2: #1a1b1f;
+  --text: #ececf0;
+  --text2: rgba(236,236,240,0.62);
+  --border: rgba(236,236,240,0.12);
+  --accent-soft: #141a20;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+::selection { background: var(--accent); color: #fff; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+img { max-width: 100%; }
+
+.container { max-width: 760px; margin: 0 auto; padding: 0 1.5rem; }
+
+.hero { background: var(--accent-soft); padding: 5.5rem 0 4.5rem; text-align: center; }
+.hero-icon { width: 88px; height: 88px; margin: 0 auto 1.75rem; display: block; }
+.hero h1 {
+  font-size: clamp(2.25rem, 6.5vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.08;
+  margin-bottom: 0.85rem;
+}
+.hero p {
+  font-size: clamp(1.05rem, 2.4vw, 1.25rem);
+  color: var(--text2);
+  max-width: 34rem;
+  margin: 0 auto 2.25rem;
+}
+
+.buttons { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+.btn {
+  display: inline-block;
+  padding: 0.7rem 1.5rem;
+  border-radius: 100px;
+  font-size: 0.98rem;
+  font-weight: 600;
+  border: 1.5px solid transparent;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+.btn:hover { text-decoration: none; transform: translateY(-1px); }
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { opacity: 0.9; }
+.btn-outline { border-color: var(--border); color: var(--text); background: var(--bg); }
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+section { padding: 4rem 0; }
+.features h2, .closing h2 {
+  font-size: clamp(1.5rem, 3.6vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 2.25rem;
+  text-align: center;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+.feature {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.4rem;
+}
+.feature h3 { font-size: 1rem; font-weight: 650; margin-bottom: 0.4rem; }
+.feature p { font-size: 0.93rem; color: var(--text2); }
+
+.closing { background: var(--bg2); text-align: center; border-top: 1px solid var(--border); }
+.closing p { color: var(--text2); max-width: 34rem; margin: 0 auto 1.75rem; }
+
+footer { padding: 2.5rem 0 3.5rem; text-align: center; font-size: 0.9rem; color: var(--text2); }
+footer p + p { margin-top: 0.35rem; }
 </style>
 </head>
 <body>
-<h1>Newsline</h1>
-<p class="updated" id="updated">Loading stories…</p>
-<input id="q" type="search" placeholder="Search headlines…">
-<div class="tabs" id="tabs">
-  <button class="tab active" data-f="latest">Latest</button>
-  <button class="tab" data-f="all">By story</button>
-  <button class="tab" data-f="l">Left-covered</button>
-  <button class="tab" data-f="c">Center-covered</button>
-  <button class="tab" data-f="r">Right-covered</button>
-  <button class="tab" data-f="blindspot">Blindspots</button>
-</div>
-<select id="src"><option value="">All sources</option></select>
-<div id="stories"></div>
+
+<section class="hero">
+  <div class="container">
+    <img class="hero-icon" src="icon.svg" alt="Newsline icon" width="88" height="88">
+    <h1>Newsline</h1>
+    <p>Headlines from 17 outlets across the political spectrum, tagged left, center, and right — with blindspot detection for the stories only one side is covering.</p>
+    <div class="buttons">
+      <a href="/reader.html" class="btn btn-primary">Open the reader</a>
+      <a href="/app.html" class="btn btn-outline">Get the apps</a>
+      <a href="https://github.com/nulljosh/newsline" class="btn btn-outline">Source</a>
+    </div>
+  </div>
+</section>
+
+<section class="features">
+  <div class="container">
+    <h2>See the whole picture, including the gaps</h2>
+    <div class="grid">
+      <div class="feature">
+        <h3>Bias tags on every story</h3>
+        <p>Each outlet is tagged left, center, or right so you can see who is covering what.</p>
+      </div>
+      <div class="feature">
+        <h3>Blindspot detection</h3>
+        <p>Surfaces stories that only one side of the spectrum is reporting at all.</p>
+      </div>
+      <div class="feature">
+        <h3>17 outlets in one feed</h3>
+        <p>National, international, and local wires pulled together into a single timeline.</p>
+      </div>
+      <div class="feature">
+        <h3>A free public API</h3>
+        <p>JSON API and an MCP server. No key, no account, no rate limit.</p>
+      </div>
+      <div class="feature">
+        <h3>Native iPhone, iPad, and Mac apps</h3>
+        <p>One SwiftUI codebase. Saved stories and the feed cache stay on device.</p>
+      </div>
+      <div class="feature">
+        <h3>No tracking</h3>
+        <p>No account to create, nothing logged about what you read.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="closing">
+  <div class="container">
+    <h2>Read today's headlines</h2>
+    <p>The web reader is open to everyone — no sign-up, no paywall.</p>
+    <div class="buttons">
+      <a href="/reader.html" class="btn btn-primary">Open the reader</a>
+    </div>
+  </div>
+</section>
 
 <footer>
-  <h2>Also an API</h2>
-  <p>Everything on this page is public JSON — bias tags, blindspot flags and all. No key, no rate limit.</p>
-  <code>curl 'https://news.heyitsmejosh.com/api/stories?view=stories&amp;blindspot=true'</code>
-  <p class="links" style="margin-top:1rem">Or add it to your agent as an MCP server:</p>
-  <code>claude mcp add --transport http newsline https://news.heyitsmejosh.com/mcp</code>
-  <p class="links">
-    <a href="/app">apps</a>
-    <a href="/llms.txt">llms.txt</a>
-    <a href="/openapi.yaml">openapi.yaml</a>
-    <a href="https://github.com/nulljosh/newsline">source</a>
-  </p>
+  <div class="container">
+    <p>Newsline &mdash; by <a href="https://heyitsmejosh.com">Joshua Trommel</a></p>
+    <p><a href="https://github.com/nulljosh/newsline">Source on GitHub</a></p>
+  </div>
 </footer>
 
-<script>
-const API = '/api/stories';
-
-function side(bias) { return bias < 0 ? 'l' : bias > 0 ? 'r' : 'c'; }
-
-let allStories = [];
-let allLatest = [];
-let filter = 'latest';
-let query = '';
-let source = '';
-
-const timeAgo = ts => {
-  if (!ts) return '';
-  const m = Math.round((Date.now() - ts) / 60000);
-  if (m < 60) return `${m}m ago`;
-  if (m < 1440) return `${Math.round(m / 60)}h ago`;
-  return `${Math.round(m / 1440)}d ago`;
-};
-
-function renderLatest() {
-  const root = document.getElementById('stories');
-  const q = query.trim().toLowerCase();
-  const items = allLatest.filter(x =>
-    (!source || x.outlet === source) && (!q || x.title.toLowerCase().includes(q)));
-  root.innerHTML = items.length
-    ? items.map(x => `<a class="item" href="${x.link}" target="_blank" rel="noopener">
-        <h2>${x.title}</h2><span class="o">${x.outlet}${x.ts ? ' · ' + timeAgo(x.ts) : ''}</span></a>`).join('')
-    : '<p class="muted">No headlines match.</p>';
-}
-
-function render() {
-  if (filter === 'latest') return renderLatest();
-  const root = document.getElementById('stories');
-  root.innerHTML = '';
-  const q = query.trim().toLowerCase();
-  const filtered = allStories.filter(s => {
-    if (source && !s.sources.some(x => x.outlet === source)) return false;
-    if (q && !s.title.toLowerCase().includes(q)) return false;
-    if (filter === 'blindspot') return s.blindspot;
-    if (filter === 'all') return true;
-    return s.sources.some(x => side(x.bias) === filter);
-  });
-  if (!filtered.length) {
-    root.innerHTML = '<p class="muted">No stories match.</p>';
-    return;
-  }
-  for (const s of filtered) {
-    const n = { l: 0, c: 0, r: 0 };
-    for (const x of s.sources) n[side(x.bias)]++;
-    const total = s.sources.length;
-    const el = document.createElement('div');
-    el.className = 'story';
-    el.innerHTML = `
-      <h2>${s.title}${s.blindspot ? '<span class="blindspot">blindspot</span>' : ''}</h2>
-      <div class="bar">
-        <div class="l" style="width:${n.l / total * 100}%"></div>
-        <div class="c" style="width:${n.c / total * 100}%"></div>
-        <div class="r" style="width:${n.r / total * 100}%"></div>
-      </div>
-      <div class="counts">${n.l} left · ${n.c} center · ${n.r} right — ${total} source${total > 1 ? 's' : ''}</div>
-      <details><summary>Coverage</summary>${
-        s.sources.map(x => `<a class="src" href="${x.link}" target="_blank" rel="noopener">${x.title} <span class="o">— ${x.outlet}</span></a>`).join('')
-      }</details>`;
-    root.appendChild(el);
-  }
-}
-
-document.getElementById('tabs').addEventListener('click', e => {
-  const btn = e.target.closest('.tab');
-  if (!btn) return;
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-  filter = btn.dataset.f;
-  render();
-});
-document.getElementById('q').addEventListener('input', e => { query = e.target.value; render(); });
-document.getElementById('src').addEventListener('change', e => { source = e.target.value; render(); });
-
-fetch(API).then(r => r.json()).then(({ updated, stories, latest }) => {
-  allStories = stories;
-  allLatest = latest || [];
-  const sel = document.getElementById('src');
-  [...new Set(allLatest.map(x => x.outlet))].sort().forEach(o => {
-    sel.insertAdjacentHTML('beforeend', `<option value="${o}">${o}</option>`);
-  });
-  document.getElementById('updated').textContent =
-    `${allLatest.length} headlines · updated ${new Date(updated).toLocaleTimeString()}`;
-  render();
-}).catch(() => {
-  document.getElementById('updated').textContent = 'Failed to load stories.';
-});
-</script>
 </body>
 </html>
