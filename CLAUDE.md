@@ -1,11 +1,11 @@
 # Newsline
 
-RSS news reader across 15 sources (incl. Hacker News, CNN, Fox, BBC…). Flat **Latest** feed + Ground News-style bias view. `news.heyitsmejosh.com`.
+RSS news reader across 16 sources (incl. Hacker News, Fox, BBC, WSJ…). Flat **Latest** feed + Ground News-style bias view. `news.heyitsmejosh.com`.
 
 ## Architecture
 
 Single Cloudflare Worker (`worker.js`) does everything:
-- Fetches 15 RSS feeds (`FEEDS` = `[outlet, bias, url]` at top of `worker.js`; add a source by appending a row — RSS 2.0 or Atom).
+- Fetches 16 RSS feeds (`FEEDS` = `[outlet, bias, url]` at top of `worker.js`; add a source by appending a row — RSS 2.0 or Atom). Run `npm run feeds` after adding one: it checks **recency**, not just item count, which is the only way to catch a "zombie" feed that still serves 200 OK from a frozen snapshot (CNN did exactly this for 3 years).
 - `parseItems` pulls title/link + a timestamp (`pubDate`/`dc:date`/`published`/`updated`, `ts=0` when absent).
 - Returns two views in one `/api/stories` JSON payload:
   - `latest` — flat reverse-chron across all sources (dateless sinks to bottom), the default reader view.

@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "test": "node test.mjs",
+    "feeds": "node check-feeds.mjs",
     "deploy": "npx wrangler deploy"
   }
 }

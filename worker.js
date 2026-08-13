@@ -2,19 +2,24 @@
 // Serves three surfaces off one cached feed pull: the web page, /api/stories, and an MCP server at /mcp.
 // ponytail: naive O(n²) title-overlap clustering; upgrade to embeddings if quality matters.
 
-const VERSION = '0.3.0';
+export const VERSION = '0.3.0';
 
-const FEEDS = [
+export const FEEDS = [
   // [outlet, bias(-2 left .. +2 right), url]
   ['CBC', -1, 'https://www.cbc.ca/webfeed/rss/rss-topstories'],
   ['The Guardian', -1, 'https://www.theguardian.com/world/rss'],
-  ['CNN', -1, 'http://rss.cnn.com/rss/cnn_topstories.rss'],
   ['NPR', -1, 'https://feeds.npr.org/1001/rss.xml'],
   ['BBC', 0, 'https://feeds.bbci.co.uk/news/world/rss.xml'],
   // Dropped 2026-08-09, all silently contributing zero items: Reuters killed its public RSS
   // (feeds.reuters.com no longer resolves), AP never had one (the rsshub.app mirror now 403s),
-  // MSNBC and CTV both 404, and the Washington Post feed 301s to a dead end. Every remaining
-  // feed below was verified to return items. Re-add any of them if an official feed reappears.
+  // MSNBC and CTV both 404, and the Washington Post feed 301s to a dead end.
+  //
+  // Dropped 2026-08-13 — CNN. A different and nastier failure than the ones above: every
+  // rss.cnn.com path still answers 200 with a well-formed feed, so an "does it return items?"
+  // check passes, but the newest item is from 2023-04 (topstories/us), 2024-04 (edition) or
+  // 2024-08 (latest). CNN discontinued RSS and left the endpoints serving a frozen snapshot.
+  // Zombie feeds like this are invisible to item-count checks — run `npm run feeds` (which
+  // checks recency, not just item count) before trusting any feed here.
   ['Global News', 0, 'https://globalnews.ca/feed/'],
   ['National Post', 1, 'https://nationalpost.com/feed'],
   ['Fox News', 2, 'https://moxie.foxnews.com/google-publisher/latest.xml'],
@@ -23,7 +28,8 @@ const FEEDS = [
   ['Hacker News', 0, 'https://hnrss.org/frontpage'], // tech, no political lean
   ['Daring Fireball', 0, 'https://daringfireball.net/feeds/main'], // tech commentary, no political lean
   ['NBC News', -1, 'https://feeds.nbcnews.com/nbcnews/public/news'],
-  ['Wall Street Journal', 1, 'https://feeds.a.dj.com/rss/RSSWorldNews.xml'],
+  // feeds.a.dj.com froze 2025-01-27 (same zombie pattern as CNN); dowjones.io is the live host.
+  ['Wall Street Journal', 1, 'https://feeds.content.dowjones.io/public/rss/RSSWorldNews'],
   ['New York Post Opinion', 2, 'https://nypost.com/opinion/feed/'],
   ['Vancouver Sun', 0, 'https://vancouversun.com/feed'],
   ['The Province', 0, 'https://theprovince.com/feed'],
