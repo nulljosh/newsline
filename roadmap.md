@@ -45,27 +45,6 @@ Dropped 5 dead feeds (all silently returning nothing): Reuters (public RSS disco
 
 **Deliberately not done:** pricing/metering/API keys (no external users yet — free and unauthenticated *is* the distribution), and generated SDKs (three packages wrapping one GET request). This closes the "newsline Stripe gate" follow-up in `~/Documents/Code/CLAUDE.md` as declined rather than pending.
 
-## 2026-08-13 — zombie feeds (CNN dropped, WSJ repointed)
-
-- [x] Feed health audit — found **two zombie feeds**: sources still answering `200 OK` with
-      well-formed XML from a frozen snapshot. Invisible to the "does it return items?" check
-      used on 2026-08-09, and both were absent from `latest` because their items sort to the
-      bottom by date, so nothing looked broken.
-  - **CNN — dropped.** Every `rss.cnn.com` path is frozen: topstories 2023-04-25 (1205 days),
-    us 2023-04-18, edition 2024-04-09, latest 2024-08-22, money 2018-11-01. `lite.cnn.com/rss`
-    404s. CNN discontinued RSS without taking the endpoints down. No official feed found —
-    re-add if one appears.
-  - **Wall Street Journal — fixed, not dropped.** `feeds.a.dj.com` froze 2025-01-27; the live
-    host is `feeds.content.dowjones.io/public/rss/RSSWorldNews`. Verified fresh (2026-08-13).
-- [x] Added `npm run feeds` (`check-feeds.mjs`) — checks **recency**, not just item count, and
-      exits 1 on any feed stale >7d (`STALE_DAYS` overrides). Imports `FEEDS` from `worker.js`
-      so the URL list can't drift. Verified both directions: 16/16 pass today, `STALE_DAYS=0`
-      fails all 16, and the old CNN URL reports `STALE 1205d`. Sends the worker's user-agent —
-      a bare fetch gets 403 from Postmedia and would report National Post, Vancouver Sun and
-      The Province as dead.
-- Outlet count 17 → 16 across README, CLAUDE.md, `public/index.html`, `public/app.html`.
-  Apps read outlets from the API, so no iOS/macOS change was needed.
-
 ## Next
 
 - [ ] Post to Show HN and r/mcp. Drafts ready in LAUNCH.md, waiting on posting.
