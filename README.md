@@ -105,3 +105,7 @@ Security: see [SECURITY.md](SECURITY.md).
 ## License
 
 MIT 2026, Joshua Trommel. Headlines and links belong to their publishers — Newsline stores nothing and links out to the original article.
+
+## Whitepaper
+
+[Technical whitepaper](WHITEPAPER.md)
