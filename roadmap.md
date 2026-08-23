@@ -61,3 +61,11 @@ Verified 2026-08-09: Glama API + badge URL both 404, not listed yet.
 
 ## Ingested 2026-08-22
 - [ ] Build out the iOS and macOS apps. (Memory records Newsline iOS/macOS apps as built 2026-08-11 but never submitted due to the 5.6 freeze — that freeze lifted 2026-08-18, so verify what exists before rebuilding, then submit.)
+
+## Blocked from App Store submission — 2026-08-22
+The iOS app is 398 lines excluding tests: one list view, one detail view, a bias bar
+and one network service. That is the same thin-wrapper profile Apple rejected Nullfolio
+for under Guideline 4.2 (minimum functionality), and this account is fresh off a 5.6
+suspension. Do not submit it in this state.
+- [ ] Decide what makes Newsline genuinely app-like rather than an RSS list: the bias comparison is the differentiator, so build it out — side-by-side coverage of the same story across outlets, saved/followed stories, offline reading, notifications for developing stories.
+- [ ] Re-measure before submitting. Nimble cleared the bar at ~1,700 lines of real UI.
