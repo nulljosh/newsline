@@ -58,3 +58,6 @@ github-actions bot requires, before merge:
 2. Then add badge to the PR body:
    [![nulljosh/newsline MCP server](https://glama.ai/mcp/servers/nulljosh/newsline/badges/score.svg)](https://glama.ai/mcp/servers/nulljosh/newsline)
 Verified 2026-08-09: Glama API + badge URL both 404, not listed yet.
+
+## Ingested 2026-08-22
+- [ ] Build out the iOS and macOS apps. (Memory records Newsline iOS/macOS apps as built 2026-08-11 but never submitted due to the 5.6 freeze — that freeze lifted 2026-08-18, so verify what exists before rebuilding, then submit.)
