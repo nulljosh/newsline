@@ -69,3 +69,37 @@ for under Guideline 4.2 (minimum functionality), and this account is fresh off a
 suspension. Do not submit it in this state.
 - [ ] Decide what makes Newsline genuinely app-like rather than an RSS list: the bias comparison is the differentiator, so build it out — side-by-side coverage of the same story across outlets, saved/followed stories, offline reading, notifications for developing stories.
 - [ ] Re-measure before submitting. Nimble cleared the bar at ~1,700 lines of real UI.
+
+## Shelved 2026-08-23 — remainder of the web+iOS build-out
+
+Worker, API and test layers landed (see commit). Not started, in priority order:
+
+- [ ] **`public/reader.html` rewrite.** It has a live stored-XSS hole: `x.title`, `x.link` and
+      `s.title` go into `innerHTML` unescaped (L107-108, 135, 143) and `decode()` actively turns
+      `&lt;` back into `<`. Feed titles are third-party input. Build DOM nodes instead of strings.
+      `safeLink()` in `src/parse.js` now blocks `javascript:` links at the source, which covers
+      the href half, but the title half is still open. **Do this one first.**
+- [ ] Extract the reader's inline JS to `public/reader.js` so it can be unit-tested in Node,
+      then add `test/reader.test.mjs` (escaping, filter state, timeAgo).
+- [ ] PWA layer: `manifest.webmanifest`, a service worker caching the shell + last payload,
+      `apple-touch-icon`, `theme-color`. Cheapest path to offline parity with the native app.
+- [ ] Reader UX: URL-encoded filter state (`?tab=&q=&outlet=`) for deep links and back-button,
+      saved stories in localStorage, `role="tablist"`/`aria-selected`/`aria-live`, labels on the
+      search and source inputs, loading skeletons, a retry button, local CSS token fallbacks so
+      the page survives `heyitsmejosh.com/tokens.css` failing to load.
+- [ ] Surface the new API fields in the reader: `health.down` (say when feeds are down instead
+      of showing a thin feed), `developing`, `firstSeen`, `summary`, `image`.
+- [ ] Web compare view backed by `?compare=true` / the `compare_coverage` MCP tool.
+- [ ] **iOS/macOS depth** — the Guideline 4.2 blocker below is still open. Planned: a compare
+      view (columns per side + the word-diff `distinctive()` already computes server-side),
+      followed keywords/outlets, read state + history, persistence moved off `.cachesDirectory`
+      to Application Support, a stable `Story.id` (title is fragile — a re-cluster loses saves),
+      local notifications via `BGAppRefreshTask` (no APNs, keeps DATA_NOT_COLLECTED), a WidgetKit
+      target behind an App Group, and a Settings pane. `NewsService` needs splitting first, and
+      a protocol seam so `Newsline-Tests` can cover fetch/decode/error paths offline.
+      No Swift toolchain in the web container — this needs a Mac or a macOS CI runner.
+- [ ] CI: `.github/workflows/ci.yml` running `npm test` on push, a scheduled `npm run feeds`
+      (it already exits non-zero on a stale feed), and a macOS job for `xcodegen && xcodebuild test`.
+- [ ] Doc drift: `/app.html` links labelled "Reader" point at `/`, which has been the marketing
+      page since 8af897b. README/llms.txt/openapi/server.json still say 17 outlets; `/api/sources`
+      now serves the real number, so point them at it.
