@@ -103,3 +103,7 @@ Worker, API and test layers landed (see commit). Not started, in priority order:
 - [ ] Doc drift: `/app.html` links labelled "Reader" point at `/`, which has been the marketing
       page since 8af897b. README/llms.txt/openapi/server.json still say 17 outlets; `/api/sources`
       now serves the real number, so point them at it.
+
+## Ingested 2026-08-24
+
+- [ ] **Hero animation pass** (Notes 2026-08-24). Reference: bookrank's hero animation — same style/vibe. Subject: **news headlines, thumbnails, and hero images scraped from the source**.
