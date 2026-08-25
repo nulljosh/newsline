@@ -107,3 +107,11 @@ Worker, API and test layers landed (see commit). Not started, in priority order:
 ## Ingested 2026-08-24
 
 - [ ] **Hero animation pass** (Notes 2026-08-24). Reference: bookrank's hero animation — same style/vibe. Subject: **news headlines, thumbnails, and hero images scraped from the source**.
+
+## Feed list also seeds Inkpress (2026-08-25)
+
+The curated `FEEDS` list in `src/feeds.js` is now duplicated as `FeedStore.seedFeeds` in
+inkpress (`ios/Sources/Shared/Models/Feed.swift`), where it is the first-launch subscription
+set. Deliberately a copy, not an import: inkpress is a Swift app with no build step that could
+read this JS, and pointing it at the Worker would add an outage surface to replace RSS parsing
+that already works locally. **If you add, drop or fix a feed here, mirror it there.**
