@@ -60,7 +60,7 @@ github-actions bot requires, before merge:
 Verified 2026-08-09: Glama API + badge URL both 404, not listed yet.
 
 ## Ingested 2026-08-22
-- [ ] Build out the iOS and macOS apps. (Memory records Newsline iOS/macOS apps as built 2026-08-11 but never submitted due to the 5.6 freeze — that freeze lifted 2026-08-18, so verify what exists before rebuilding, then submit.)
+- **DECIDED 2026-08-25 — do NOT submit these, and do not "verify whether to".** The iOS/macOS apps exist in `ios/` and the 5.6 freeze did lift, but the reason not to submit was never the freeze: at ~398 lines with one list view, one detail view and a bias bar, this is the exact thin reader profile that got Nullfolio rejected under Guideline 4.2. Instead of fattening it, the curated feed list was folded into **Inkpress**, which is a shipping app — see the note above about mirroring feed changes. Newsline stays a Worker plus MCP server. Was:
 
 ## Blocked from App Store submission — 2026-08-22
 The iOS app is 398 lines excluding tests: one list view, one detail view, a bias bar
