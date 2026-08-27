@@ -57,7 +57,13 @@ Done:
   `asc builds uploads list`, not the upload's own success line.
 - Landing page carries the real App Store link, deployed and returning 200.
 
-### Remaining before submit — 4 blockers, per `asc validate`
+**2026-08-27 later:** review detail fixed (`demoAccountRequired` was true; the app has no
+login — that was the "review detail field is missing" error). macOS archived, exported and
+**uploaded**, build `202608271411`, PROCESSING at wrap time. Note the pkg upload requires
+`--version` AND `--build-number`, and they must match the pkg's real CFBundleVersion or the
+upload fails 90345 after committing.
+
+### Remaining before submit — per `asc validate`
 - [ ] **Screenshots** — none captured yet. Blocks both platforms. iPhone 11 Pro Max (6.5") +
       iPhone 14 Plus (6.7") only, plus iPad 12.9" and Mac. Use a dedicated `Sidewise-Shots`
       sim. The feed must return live items at capture time or every shot is an empty list.
@@ -67,10 +73,9 @@ Done:
       `asc web apps availability create` are rejected (public API 400, web API 404
       PATH_ERROR). Matches the known availability dead end. Dashboard.
       **Drop CHN** when setting it: a news aggregator needs a Chinese publishing permit.
-- [ ] **Review detail field missing** — one field still short on the created review detail;
-      re-run validate to see which.
-- [ ] macOS build not yet built/uploaded. `asc xcode export` is iOS-only — raw xcodebuild
-      archive + export, then `asc builds upload --pkg`.
+- [x] ~~Review detail field~~ — fixed, `demoAccountRequired` set false both platforms.
+- [ ] Attach the macOS build to version `4f714599-bf5a-42b2-9a9f-c353868feb76` once it
+      finishes processing (`asc versions attach-build`). Binary is already uploaded.
 
 App Store link (live now, 404s until approved): https://apps.apple.com/app/id6806028670
 
