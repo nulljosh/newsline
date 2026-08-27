@@ -1,6 +1,6 @@
 # Newsline Technical Whitepaper
 
-**v0.2.0** | July 2026
+**v0.4.0** | August 2026
 
 Newsline is an RSS news reader across 15 sources with a Ground News-style bias
 view: same-story headlines clustered together, tagged left/center/right, with
@@ -54,6 +54,12 @@ search, plus tabs into the bias view. No framework, no build step.
 
 `node test.mjs` covers the parser, latest-feed sort, and clustering.
 `npm run deploy` runs `wrangler deploy`.
+
+## Native apps
+
+SwiftUI iOS and macOS readers hit the same `/api/stories` endpoint. Built
+2026-08-11, not yet submitted to the App Store. The same feed API also backs
+Inkpress's seeded subscription list and the `/news` briefing skill.
 
 ## License
 
