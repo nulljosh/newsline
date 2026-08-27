@@ -28,7 +28,7 @@ struct ContentView: View {
                     NavigationLink(value: s) { Label(s.rawValue, systemImage: s.icon) }
                 }
             }
-            .navigationTitle("Newsline")
+            .navigationTitle("Sidewise")
             #if os(macOS)
             .frame(minWidth: 170)
             #endif
