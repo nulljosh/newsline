@@ -109,3 +109,9 @@ MIT 2026, Joshua Trommel. Headlines and links belong to their publishers — New
 ## Whitepaper
 
 [Technical whitepaper](WHITEPAPER.md)
+
+## API and agent tools
+
+REST (`/api/*`), the `POST /mcp` JSON-RPC server, and in-page WebMCP tools on the reader
+(`public/webmcp.js`) all expose the same four operations, kept in sync and tested against
+each other. See [`docs/API.md`](docs/API.md).
