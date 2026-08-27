@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "approvedAt": "2026-08-27T21:10:17Z",
+  "planHash": "a09546ecb142b6fd7fa0743158cbacc4a8bd477f35959a5eab637580275509e3",
+  "reviewDir": ".asc/metadata/review-IOS",
+  "planPath": ".asc/metadata/review-IOS/plan.json",
+  "approvalPath": ".asc/metadata/review-IOS/approved.json",
+  "mode": "all",
+  "approvedKeys": [
+    "app-info:en-CA:privacyPolicyUrl",
+    "app-info:en-CA:subtitle",
+    "version:1.0:en-CA:description",
+    "version:1.0:en-CA:keywords",
+    "version:1.0:en-CA:marketingUrl",
+    "version:1.0:en-CA:promotionalText",
+    "version:1.0:en-CA:supportUrl"
+  ]
+}

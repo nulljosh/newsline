@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-27T21:10:17Z",
+  "command": "metadata plan",
+  "reviewDir": ".asc/metadata/review-IOS",
+  "planPath": ".asc/metadata/review-IOS/plan.json",
+  "approvalPath": ".asc/metadata/review-IOS/approved.json",
+  "planHash": "a09546ecb142b6fd7fa0743158cbacc4a8bd477f35959a5eab637580275509e3",
+  "options": {
+    "appId": "6806028670",
+    "appInfoId": "7efc49f5-83d3-4730-9594-aa15ea90d603",
+    "version": "1.0",
+    "platform": "IOS",
+    "dir": "./metadata",
+    "includes": [
+      "localizations"
+    ],
+    "allowDeletes": false
+  },
+  "plan": {
+    "appId": "6806028670",
+    "appInfoId": "7efc49f5-83d3-4730-9594-aa15ea90d603",
+    "version": "1.0",
+    "versionId": "68c828dd-26a9-4078-84a3-cfdc948faf57",
+    "dir": "./metadata",
+    "dryRun": true,
+    "includes": [
+      "localizations"
+    ],
+    "adds": [
+      {
+        "key": "app-info:en-CA:privacyPolicyUrl",
+        "scope": "app-info",
+        "locale": "en-CA",
+        "field": "privacyPolicyUrl",
+        "reason": "field exists locally but not remotely",
+        "to": "https://news.heyitsmejosh.com/privacy"
+      },
+      {
+        "key": "app-info:en-CA:subtitle",
+        "scope": "app-info",
+        "locale": "en-CA",
+        "field": "subtitle",
+        "reason": "field exists locally but not remotely",
+        "to": "See both sides of the news"
+      },
+      {
+        "key": "version:1.0:en-CA:description",
+        "scope": "version",
+        "locale": "en-CA",
+        "version": "1.0",
+        "field": "description",
+        "reason": "field exists locally but not remotely",
+        "to": "Sidewise groups the day's news by story, not by outlet, and shows you who is covering it and from where on the spectrum.\n\nEvery story carries a bias bar: how many left, center and right outlets are running it. When only one side is covering something, it gets flagged as a blindspot, so you can see what your usual sources are leaving out.\n\n• Stories — headlines clustered across outlets, with the bias bar and blindspot tag\n• Latest — a flat, straight chronological feed\n• Saved — keep anything for later\n• Filter the whole feed to left, center or right, or search across everything\n\nSixteen outlets, from CBC, The Guardian and NPR through BBC and Global News to the National Post, Wall Street Journal, Fox News and the New York Post, plus Hacker News and Daring Fireball for tech.\n\nBuilt to stay out of your way. No account to create, no ads, no tracking, no analytics and no third-party SDKs. Stories and anything you save are cached on device, so the app opens and works when you are offline.\n\nOne purchase, iPhone, iPad and Mac."
+      },
+      {
+        "key": "version:1.0:en-CA:keywords",
+        "scope": "version",
+        "locale": "en-CA",
+        "version": "1.0",
+        "field": "keywords",
+        "reason": "field exists locally but not remotely",
+        "to": "news,headlines,bias,media,politics,rss,reader,unbiased,world,feed,current events"
+      },
+      {
+        "key": "version:1.0:en-CA:marketingUrl",
+        "scope": "version",
+        "locale": "en-CA",
+        "version": "1.0",
+        "field": "marketingUrl",
+        "reason": "field exists locally but not remotely",
+        "to": "https://news.heyitsmejosh.com/app"
+      },
+      {
+        "key": "version:1.0:en-CA:promotionalText",
+        "scope": "version",
+        "locale": "en-CA",
+        "version": "1.0",
+        "field": "promotionalText",
+        "reason": "field exists locally but not remotely",
+        "to": "Every story, and who is not covering it."
+      },
+      {
+        "key": "version:1.0:en-CA:supportUrl",
+        "scope": "version",
+        "locale": "en-CA",
+        "version": "1.0",
+        "field": "supportUrl",
+        "reason": "field exists locally but not remotely",
+        "to": "https://news.heyitsmejosh.com/app"
+      }
+    ],
+    "updates": [],
+    "deletes": [],
+    "apiCalls": [
+      {
+        "operation": "update_localization",
+        "scope": "app-info",
+        "count": 1
+      },
+      {
+        "operation": "update_localization",
+        "scope": "version",
+        "count": 1
+      }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "approvedAt": "2026-08-27T21:10:21Z",
+  "planHash": "e3056b7cdefc2636e59f27e9a1af7816261c6feb25b45f41e1bf9794f15f561d",
+  "reviewDir": ".asc/metadata/review-MAC_OS",
+  "planPath": ".asc/metadata/review-MAC_OS/plan.json",
+  "approvalPath": ".asc/metadata/review-MAC_OS/approved.json",
+  "mode": "all",
+  "approvedKeys": [
+    "version:1.0:en-CA:description",
+    "version:1.0:en-CA:keywords",
+    "version:1.0:en-CA:marketingUrl",
+    "version:1.0:en-CA:promotionalText",
+    "version:1.0:en-CA:supportUrl"
+  ]
+}
