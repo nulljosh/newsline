@@ -64,7 +64,15 @@ login — that was the "review detail field is missing" error). macOS archived, 
 upload fails 90345 after committing.
 
 ### Remaining before submit — per `asc validate`
-- [ ] **Screenshots** — none captured yet. Blocks both platforms. iPhone 11 Pro Max (6.5") +
+- [ ] **Screenshots** — none captured yet. Blocks both platforms. Verified ready 2026-08-27:
+      the sim build succeeds and the live feed returns items, so capture can start cold.
+      Sims already on this machine: iPhone 11 Pro Max (6.5"), iPhone 14 Plus (6.7"),
+      iPad Pro 13-inch (M5). Build with:
+      `xcodebuild -project Newsline.xcodeproj -scheme Newsline-iOS -configuration Release \
+       -sdk iphonesimulator -derivedDataPath <dd> CODE_SIGNING_ALLOWED=NO build`
+      then simctl install/launch and `simctl io <dev> screenshot`. Mac shots need the app
+      running on the desktop + `screencapture -l <windowid>` (no AppleScript System Events).
+      Check the feed returns items before capturing or every shot is an empty list. iPhone 11 Pro Max (6.5") +
       iPhone 14 Plus (6.7") only, plus iPad 12.9" and Mac. Use a dedicated `Sidewise-Shots`
       sim. The feed must return live items at capture time or every shot is an empty list.
 - [ ] **Age rating** — no CLI setter exists (`asc app-setup info set` has no age-rating flag).
