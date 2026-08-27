@@ -12,13 +12,19 @@
 - Both targets build clean; `Newsline-Tests` covers bias-side mapping, filtering, search and
   API decoding.
 
-### App Store — NOT submitted, deliberately
-The account-wide submission freeze runs to **2026-08-18** (Guideline 5.6, see
-`~/Documents/Code/CLAUDE.md`). Nothing was submitted and no ASC record was created.
+### App Store — NOT submitted
+The 5.6 freeze that blocked this **lifted 2026-08-18**. Nothing blocks submission now; it
+just hasn't been started. Still no ASC record and no registered bundle ID.
+
+Name check 2026-08-27: **"Newsline" is TAKEN.** Also taken: Blindspot, Newsprism, Crosswire,
+Newsarc. Available: **Sidewise** (pick), Wirebrief, Newsgrain, Presswise, Biaslens, Newsfold,
+Newsband, Slantwise, Pressfold, Newsvane, Headwire.
 
 Before submitting, in order:
-- [ ] Create the ASC app record (name "Newsline" needs availability-checking first via
-      `asc-name-creator`) and register `com.nulljosh.newsline` for iOS + macOS.
+- [ ] Create the ASC app record as **Sidewise** and register `com.nulljosh.newsline` for
+      iOS + macOS (Universal Purchase). Record creation is web-UI only (`asc-app-create-ui`)
+      and ASC records cannot be deleted without Apple Support — confirm the name first.
+- [ ] Accept the Paid Apps Agreement if still unaccepted (silently blocks all submits).
 - [ ] Screenshots (iPhone 6.5"/6.7", iPad 12.9", Mac) — see `appstore-screenshots` skill.
 - [ ] Metadata + App Privacy (answer DATA_NOT_COLLECTED), privacy URL
       `https://news.heyitsmejosh.com/privacy`, marketing URL `https://news.heyitsmejosh.com/app`.
