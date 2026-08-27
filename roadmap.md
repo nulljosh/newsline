@@ -33,6 +33,47 @@ Before submitting, in order:
       5.6 letter requires spelling that out.
 - [ ] Add the App Store badge + link to `/app` once live.
 
+## 2026-08-27 — App Store: shipped as **Sidewise**, ASC `6806028670`
+
+"Newsline" is **taken** on the App Store (so are Blindspot, Newsprism, Crosswire, Newsarc).
+The app ships as **Sidewise**; the repo, Worker, API, MCP server and news.heyitsmejosh.com
+keep the newsline name — same split as spine/Bookrank and echo/Voxprint.
+
+The 5.6 freeze this was waiting on lifted 2026-08-18. It was never the blocker after that
+date; the work just wasn't picked back up.
+
+Done:
+- Bundle ID `com.nulljosh.newsline` registered UNIVERSAL (`G2U98QG4V3`).
+- ASC record `6806028670`, en-CA, one Universal Purchase record with **IOS 1.0 + MAC_OS 1.0**
+  (`asc versions create --platform MAC_OS` on the same record — Quotestreak proves the path).
+- Display name -> Sidewise both platforms; `LSApplicationCategoryType` added to the macOS
+  plist (its absence is the real ITMS-90242 cause); MARKETING_VERSION 1.0.0 -> 1.0.
+- Profiles `Sidewise AppStore` / `Sidewise Mac AppStore` created **and installed locally** —
+  export fails with "no profiles installed" until `asc profiles local install` is run.
+- `metadata/` in canonical asc layout, **en-CA** (matching the record's primary locale — with
+  en-US filenames the plan tries to DELETE the primary localization). Applied to both.
+- Category NEWS, free pricing, content rights, copyright, review notes (both platforms).
+- **iOS build uploaded and VALID**, attached to the version. Verified via
+  `asc builds uploads list`, not the upload's own success line.
+- Landing page carries the real App Store link, deployed and returning 200.
+
+### Remaining before submit — 4 blockers, per `asc validate`
+- [ ] **Screenshots** — none captured yet. Blocks both platforms. iPhone 11 Pro Max (6.5") +
+      iPhone 14 Plus (6.7") only, plus iPad 12.9" and Mac. Use a dedicated `Sidewise-Shots`
+      sim. The feed must return live items at capture time or every shot is an empty list.
+- [ ] **Age rating** — no CLI setter exists (`asc app-setup info set` has no age-rating flag).
+      Dashboard.
+- [ ] **App availability** — both `asc pricing availability create` and
+      `asc web apps availability create` are rejected (public API 400, web API 404
+      PATH_ERROR). Matches the known availability dead end. Dashboard.
+      **Drop CHN** when setting it: a news aggregator needs a Chinese publishing permit.
+- [ ] **Review detail field missing** — one field still short on the created review detail;
+      re-run validate to see which.
+- [ ] macOS build not yet built/uploaded. `asc xcode export` is iOS-only — raw xcodebuild
+      archive + export, then `asc builds upload --pkg`.
+
+App Store link (live now, 404s until approved): https://apps.apple.com/app/id6806028670
+
 ## 2026-08-09 — v0.3.0: API + MCP server
 
 Turned newsline from a website into something other people's code can depend on. Shipped:
