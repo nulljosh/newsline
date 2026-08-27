@@ -1,6 +1,6 @@
 # Newsline
 
-> A free, unauthenticated JSON API for current headlines from 17 news outlets across the
+> A free, unauthenticated JSON API for current headlines from 16 news outlets across the
 > political spectrum, with left/center/right bias tags and blindspot detection — stories
 > covered by only one side. Also exposed as an MCP server.
 
@@ -53,13 +53,13 @@ curl 'https://news.heyitsmejosh.com/api/stories?view=latest&bias=right&q=budget'
       "title": "Fed holds rates steady",
       "blindspot": false,
       "sources": [
-        { "title": "Fed holds rates steady", "link": "https://…", "outlet": "CNN", "bias": -1 },
+        { "title": "Fed holds rates steady", "link": "https://…", "outlet": "NPR", "bias": -1 },
         { "title": "Fed refuses to cut rates", "link": "https://…", "outlet": "Fox News", "bias": 2 }
       ]
     }
   ],
   "latest": [
-    { "title": "Fed holds rates steady", "link": "https://…", "outlet": "CNN", "bias": -1, "ts": 1754699000000 }
+    { "title": "Fed holds rates steady", "link": "https://…", "outlet": "NPR", "bias": -1, "ts": 1754699000000 }
   ]
 }
 ```
@@ -84,7 +84,7 @@ Stateless, no authentication.
 
 ## Outlets
 
-CBC, The Guardian, CNN, NPR, BBC, Global News, National Post, Fox News, NY Post,
+CBC, The Guardian, NPR, BBC, Global News, National Post, Fox News, NY Post,
 Daily Wire, Hacker News, Daring Fireball, NBC News, Wall Street Journal,
 New York Post Opinion, Vancouver Sun, The Province.
 
