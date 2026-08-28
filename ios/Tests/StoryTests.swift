@@ -1,5 +1,5 @@
 import XCTest
-@testable import Newsline_iOS
+@testable import Sidewise_iOS
 
 final class StoryTests: XCTestCase {
     private func source(_ outlet: String, _ bias: Int) -> Source {

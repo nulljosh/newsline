@@ -1,8 +1,8 @@
 <img src="icon.svg" width="80" style="border-radius:18px">
 
-# Newsline
+# Sidewise
 
-![version](https://img.shields.io/badge/version-v0.4.0-blue) ![license](https://img.shields.io/badge/license-MIT-green) [![GitHub](https://img.shields.io/badge/GitHub-nulljosh%2Fnewsline-black?logo=github)](https://github.com/nulljosh/newsline)
+![version](https://img.shields.io/badge/version-v0.4.0-blue) ![license](https://img.shields.io/badge/license-MIT-green) [![GitHub](https://img.shields.io/badge/GitHub-nulljosh%2Fsidewise-black?logo=github)](https://github.com/nulljosh/sidewise)
 
 Headlines from 16 feeds across 14 newsrooms, spanning the political spectrum, with
 left/center/right bias tags and **blindspot** detection: stories covered by only one side.
@@ -20,13 +20,13 @@ tracking, saved stories and the feed cache stay on device.
 
 ```
 cd ios && xcodegen generate
-xcodebuild -scheme Newsline-iOS -destination 'generic/platform=iOS Simulator' build
+xcodebuild -scheme Sidewise-iOS -destination 'generic/platform=iOS Simulator' build
 ```
 
 ## MCP
 
 ```
-claude mcp add --transport http newsline https://news.heyitsmejosh.com/mcp
+claude mcp add --transport http sidewise https://news.heyitsmejosh.com/mcp
 ```
 
 | Tool | Params | Returns |
@@ -139,7 +139,7 @@ Security: see [SECURITY.md](SECURITY.md).
 
 ## License
 
-MIT 2026, Joshua Trommel. Headlines and links belong to their publishers — Newsline stores nothing and links out to the original article.
+MIT 2026, Joshua Trommel. Headlines and links belong to their publishers — Sidewise stores nothing and links out to the original article.
 
 ## Whitepaper
 

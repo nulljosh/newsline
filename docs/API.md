@@ -1,6 +1,6 @@
 # API
 
-Newsline exposes one set of data — current headlines, clustered by story, tagged with
+Sidewise exposes one set of data — current headlines, clustered by story, tagged with
 political bias — through three surfaces that all answer the same four questions:
 
 | Operation | REST | MCP (`POST /mcp`) tool | WebMCP tool (`public/webmcp.js`) |
@@ -49,7 +49,7 @@ Stateless streamable-HTTP MCP server, implemented in `src/mcp.js`. Supports `ini
 `notifications/initialized`, `ping`, `tools/list`, `tools/call`.
 
 ```
-claude mcp add --transport http newsline https://news.heyitsmejosh.com/mcp
+claude mcp add --transport http sidewise https://news.heyitsmejosh.com/mcp
 ```
 
 Tool list (`TOOLS` in `src/mcp.js`) and dispatch (`callTool`) are the canonical source for

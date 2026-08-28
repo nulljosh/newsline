@@ -1,7 +1,7 @@
 // The highest-value test in the WebMCP rollout: it catches the in-page tool surface
 // (public/webmcp.js) drifting from the HTTP MCP server (src/mcp.js). Both must expose the
 // same tool names and input schemas, or an agent gets different answers depending on
-// whether it reached newsline via a browser or via `POST /mcp`.
+// whether it reached sidewise via a browser or via `POST /mcp`.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';

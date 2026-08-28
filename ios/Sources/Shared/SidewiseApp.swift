@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct NewslineApp: App {
+struct SidewiseApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()

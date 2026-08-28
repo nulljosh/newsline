@@ -28,7 +28,7 @@ export async function pullFeeds({ fetchImpl = fetch, feeds = FEEDS, timeout = FE
   const settled = await Promise.allSettled(feeds.map(async ([outlet, bias, url, publisher]) => {
     const started = Date.now();
     const res = await fetchImpl(url, {
-      headers: { 'user-agent': 'newsline/' + VERSION, accept: 'application/rss+xml, application/xml, text/xml, */*' },
+      headers: { 'user-agent': 'sidewise/' + VERSION, accept: 'application/rss+xml, application/xml, text/xml, */*' },
       signal: AbortSignal.timeout(timeout),
     });
     // A 403/404/500 HTML error page parses to zero items and is otherwise indistinguishable

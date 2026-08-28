@@ -13,7 +13,7 @@ Only the deployed version at `news.heyitsmejosh.com` and the tip of `main` are s
 
 ## Scope
 
-Newsline is a read-only edge worker. It has no accounts, no database, no user data, and
+Sidewise is a read-only edge worker. It has no accounts, no database, no user data, and
 stores nothing — it fetches public RSS feeds and returns headlines with links back to the
 publisher.
 

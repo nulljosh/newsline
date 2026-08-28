@@ -1,4 +1,4 @@
-name: Newsline
+name: Sidewise
 
 options:
   bundleIdPrefix: com.nulljosh
@@ -15,21 +15,21 @@ settings:
     DEVELOPMENT_TEAM: QMM486NPYC
 
 schemes:
-  Newsline-iOS:
+  Sidewise-iOS:
     build:
       targets:
-        Newsline-iOS: all
-        Newsline-Tests: [test]
+        Sidewise-iOS: all
+        Sidewise-Tests: [test]
     test:
       targets:
-        - Newsline-Tests
-  Newsline-macOS:
+        - Sidewise-Tests
+  Sidewise-macOS:
     build:
       targets:
-        Newsline-macOS: all
+        Sidewise-macOS: all
 
 targets:
-  Newsline-iOS:
+  Sidewise-iOS:
     type: application
     platform: iOS
     sources:
@@ -43,7 +43,7 @@ targets:
         TARGETED_DEVICE_FAMILY: "1,2"
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
 
-  Newsline-macOS:
+  Sidewise-macOS:
     type: application
     platform: macOS
     sources:
@@ -56,15 +56,15 @@ targets:
         GENERATE_INFOPLIST_FILE: NO
         ENABLE_HARDENED_RUNTIME: YES
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
-        CODE_SIGN_ENTITLEMENTS: Sources/macOS/Newsline-macOS.entitlements
+        CODE_SIGN_ENTITLEMENTS: Sources/macOS/Sidewise-macOS.entitlements
 
-  Newsline-Tests:
+  Sidewise-Tests:
     type: bundle.unit-test
     platform: iOS
     sources:
       - path: Tests
     dependencies:
-      - target: Newsline-iOS
+      - target: Sidewise-iOS
     settings:
       base:
         GENERATE_INFOPLIST_FILE: YES

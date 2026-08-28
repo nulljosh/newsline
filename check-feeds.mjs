@@ -16,7 +16,7 @@ const rows = await Promise.all(FEEDS.map(async ([outlet, bias, url]) => {
     // Same UA the worker sends — Postmedia (National Post, Vancouver Sun, The Province) 403s
     // a bare fetch, which would report three healthy feeds as down.
     const res = await fetch(url, {
-      headers: { 'user-agent': 'newsline/' + VERSION },
+      headers: { 'user-agent': 'sidewise/' + VERSION },
       signal: AbortSignal.timeout(15000),
     });
     if (!res.ok) return { outlet, url, status: `HTTP ${res.status}`, bad: true };

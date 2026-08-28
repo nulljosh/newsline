@@ -41,7 +41,7 @@ test('every advertised tool has a name, description and schema', () => {
 
 test('initialize reports the protocol version and server identity', async () => {
   const { result } = await (await rpc({ jsonrpc: '2.0', id: 1, method: 'initialize', params: {} })).json();
-  assert.equal(result.serverInfo.name, 'newsline');
+  assert.equal(result.serverInfo.name, 'sidewise');
   assert.ok(result.capabilities.tools);
 });
 

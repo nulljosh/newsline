@@ -15,7 +15,7 @@ Lead with that or the post dies.
 > Show HN: Free news API that flags stories only one side of the media is covering
 
 Alternates:
-- `Show HN: Newsline – news API with political bias tags and blindspot detection`
+- `Show HN: Sidewise – news API with political bias tags and blindspot detection`
 - `Show HN: An MCP server that tells you what your side isn't reporting`
 
 **Body:**
@@ -33,7 +33,7 @@ free and unauthenticated.
 
 It's also an MCP server, so you can hand it to an agent directly:
 
-    claude mcp add --transport http newsline https://news.heyitsmejosh.com/mcp
+    claude mcp add --transport http sidewise https://news.heyitsmejosh.com/mcp
 
 Two tools: `get_news` (filter by outlet, bias, keyword) and `get_blindspots`.
 
@@ -48,27 +48,27 @@ rating — treat them as a rough lean rather than a measurement. It's US/Canada 
 "blindspot" only means one side's outlets in my list covered it, which is a much weaker
 claim than the label suggests.
 
-Source: https://github.com/nulljosh/newsline
+Source: https://github.com/nulljosh/sidewise
 
 ---
 
 ## r/mcp (shorter)
 
-**Title:** `Newsline – MCP server for news with political bias tags and blindspot detection`
+**Title:** `Sidewise – MCP server for news with political bias tags and blindspot detection`
 
 I put an MCP server in front of 17 news RSS feeds.
 
-    claude mcp add --transport http newsline https://news.heyitsmejosh.com/mcp
+    claude mcp add --transport http sidewise https://news.heyitsmejosh.com/mcp
 
 Two tools. `get_news` filters current headlines by outlet, political lean, or keyword.
 `get_blindspots` returns stories where every outlet covering them is on the same side of
 the spectrum — useful for asking an agent "what is my side not reporting today."
 
 Free, no auth, no rate limit. Remote streamable-HTTP, so there's nothing to install.
-It's listed in the official registry as `io.github.nulljosh/newsline`.
+It's listed in the official registry as `io.github.nulljosh/sidewise`.
 
 Bias scores are hand-assigned by me, not a third-party rating. Source is MIT:
-https://github.com/nulljosh/newsline
+https://github.com/nulljosh/sidewise
 
 ---
 

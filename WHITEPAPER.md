@@ -1,8 +1,8 @@
-# Newsline Technical Whitepaper
+# Sidewise Technical Whitepaper
 
 **v0.4.0** | August 2026
 
-Newsline is an RSS news reader across 15 sources with a Ground News-style bias
+Sidewise is an RSS news reader across 15 sources with a Ground News-style bias
 view: same-story headlines clustered together, tagged left/center/right, with
 blindspot detection for stories only one side covers. Live at
 [news.heyitsmejosh.com](https://news.heyitsmejosh.com).

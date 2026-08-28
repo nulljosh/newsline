@@ -1,11 +1,11 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.nulljosh/newsline",
-  "title": "Newsline",
+  "name": "io.github.nulljosh/sidewise",
+  "title": "Sidewise",
   "description": "News from 17 outlets with left/center/right bias tags and one-sided blindspot detection",
   "version": "0.3.0",
   "repository": {
-    "url": "https://github.com/nulljosh/newsline",
+    "url": "https://github.com/nulljosh/sidewise",
     "source": "github"
   },
   "remotes": [

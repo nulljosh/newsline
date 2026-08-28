@@ -1,22 +1,22 @@
-# Newsline Roadmap
+# Sidewise Roadmap
 
 ## 2026-08-11 — v1.0.0 apps + landing page
 
-- `ios/` — SwiftUI app, one shared source tree for iPhone/iPad (`Newsline-iOS`) and Mac
-  (`Newsline-macOS`), bundle ID `com.nulljosh.newsline` for both (Universal Purchase).
+- `ios/` — SwiftUI app, one shared source tree for iPhone/iPad (`Sidewise-iOS`) and Mac
+  (`Sidewise-macOS`), bundle ID `com.nulljosh.newsline` for both (Universal Purchase).
   NavigationSplitView with three panes: clustered **Stories** (bias bar, blindspot tag,
   left/center/right filter), flat **Latest**, and **Saved**. Feed and saved stories cache to
   Caches as JSON, so the app opens offline. No account, no analytics, no third-party SDKs.
 - `public/app.html` (`/app`) — landing page for the apps. `public/privacy.html` (`/privacy`) —
   privacy policy, required for the App Store listing. Both linked from the reader footer.
-- Both targets build clean; `Newsline-Tests` covers bias-side mapping, filtering, search and
+- Both targets build clean; `Sidewise-Tests` covers bias-side mapping, filtering, search and
   API decoding.
 
 ### App Store — NOT submitted
 The 5.6 freeze that blocked this **lifted 2026-08-18**. Nothing blocks submission now; it
 just hasn't been started. Still no ASC record and no registered bundle ID.
 
-Name check 2026-08-27: **"Newsline" is TAKEN.** Also taken: Blindspot, Newsprism, Crosswire,
+Name check 2026-08-27: **"Sidewise" is TAKEN.** Also taken: Blindspot, Newsprism, Crosswire,
 Newsarc. Available: **Sidewise** (pick), Wirebrief, Newsgrain, Presswise, Biaslens, Newsfold,
 Newsband, Slantwise, Pressfold, Newsvane, Headwire.
 
@@ -35,9 +35,9 @@ Before submitting, in order:
 
 ## 2026-08-27 — App Store: shipped as **Sidewise**, ASC `6806028670`
 
-"Newsline" is **taken** on the App Store (so are Blindspot, Newsprism, Crosswire, Newsarc).
+"Sidewise" is **taken** on the App Store (so are Blindspot, Newsprism, Crosswire, Newsarc).
 The app ships as **Sidewise**; the repo, Worker, API, MCP server and news.heyitsmejosh.com
-keep the newsline name — same split as spine/Bookrank and echo/Voxprint.
+keep the sidewise name — same split as spine/Bookrank and echo/Voxprint.
 
 The 5.6 freeze this was waiting on lifted 2026-08-18. It was never the blocker after that
 date; the work just wasn't picked back up.
@@ -70,7 +70,7 @@ Both platforms 0 errors, 0 blocking. Submitted at Joshua's explicit direction de
 **iOS 1.0** — submission `561d82ed-410d-4feb-9f32-6a2c6c576bd0`, WAITING_FOR_REVIEW
 **macOS 1.0** — submission `00f546b4-5b50-4867-b215-8cc6693fd45b`, WAITING_FOR_REVIEW
 
-Build **`202608280953`** on both platforms — rebuilt after code fix to ship the CFBundleName correction. Prior builds would have shown "Newsline-macOS" in menu bar.
+Build **`202608280953`** on both platforms — rebuilt after code fix to ship the CFBundleName correction. Prior builds would have shown "Sidewise-macOS" in menu bar.
 
 Completed status:
 - Age rating: INFREQUENT_OR_MILD across violence, mature/suggestive, alcohol/tobacco/drug references
@@ -85,7 +85,7 @@ App Store link: https://apps.apple.com/app/id6806028670
 
 ## 2026-08-09 — v0.3.0: API + MCP server
 
-Turned newsline from a website into something other people's code can depend on. Shipped:
+Turned sidewise from a website into something other people's code can depend on. Shipped:
 
 - Query params on `/api/stories` (`view`, `outlet`, `bias`, `blindspot`, `q`, `limit`).
 - MCP server at `/mcp` — `get_news`, `get_blindspots`. Hand-rolled stateless JSON-RPC, no SDK, no Durable Object.
@@ -99,7 +99,7 @@ Three bugs found and fixed while verifying against production:
 
 Dropped 5 dead feeds (all silently returning nothing): Reuters (public RSS discontinued), AP (rsshub mirror 403s), MSNBC and CTV (404), Washington Post (301 to a dead end). 17 outlets remain, each verified to return items.
 
-**Deliberately not done:** pricing/metering/API keys (no external users yet — free and unauthenticated *is* the distribution), and generated SDKs (three packages wrapping one GET request). This closes the "newsline Stripe gate" follow-up in `~/Documents/Code/CLAUDE.md` as declined rather than pending.
+**Deliberately not done:** pricing/metering/API keys (no external users yet — free and unauthenticated *is* the distribution), and generated SDKs (three packages wrapping one GET request). This closes the "sidewise Stripe gate" follow-up in `~/Documents/Code/CLAUDE.md` as declined rather than pending.
 
 ## Next
 
@@ -110,20 +110,20 @@ Dropped 5 dead feeds (all silently returning nothing): Reuters (public RSS disco
 
 ## awesome-mcp-servers PR #11830 (2026-08-09)
 github-actions bot requires, before merge:
-1. List newsline on Glama — https://glama.ai/mcp/servers (GitHub OAuth, browser-only; no public submit API). Remote hosted endpoint, so use the connectors path https://glama.ai/mcp/connectors, not the Dockerfile flow.
+1. List sidewise on Glama — https://glama.ai/mcp/servers (GitHub OAuth, browser-only; no public submit API). Remote hosted endpoint, so use the connectors path https://glama.ai/mcp/connectors, not the Dockerfile flow.
 2. Then add badge to the PR body:
-   [![nulljosh/newsline MCP server](https://glama.ai/mcp/servers/nulljosh/newsline/badges/score.svg)](https://glama.ai/mcp/servers/nulljosh/newsline)
+   [![nulljosh/sidewise MCP server](https://glama.ai/mcp/servers/nulljosh/sidewise/badges/score.svg)](https://glama.ai/mcp/servers/nulljosh/sidewise)
 Verified 2026-08-09: Glama API + badge URL both 404, not listed yet.
 
 ## Ingested 2026-08-22
-- **DECIDED 2026-08-25 — do NOT submit these, and do not "verify whether to".** The iOS/macOS apps exist in `ios/` and the 5.6 freeze did lift, but the reason not to submit was never the freeze: at ~398 lines with one list view, one detail view and a bias bar, this is the exact thin reader profile that got Nullfolio rejected under Guideline 4.2. Instead of fattening it, the curated feed list was folded into **Inkpress**, which is a shipping app — see the note above about mirroring feed changes. Newsline stays a Worker plus MCP server. Was:
+- **DECIDED 2026-08-25 — do NOT submit these, and do not "verify whether to".** The iOS/macOS apps exist in `ios/` and the 5.6 freeze did lift, but the reason not to submit was never the freeze: at ~398 lines with one list view, one detail view and a bias bar, this is the exact thin reader profile that got Nullfolio rejected under Guideline 4.2. Instead of fattening it, the curated feed list was folded into **Inkpress**, which is a shipping app — see the note above about mirroring feed changes. Sidewise stays a Worker plus MCP server. Was:
 
 ## Blocked from App Store submission — 2026-08-22
 The iOS app is 398 lines excluding tests: one list view, one detail view, a bias bar
 and one network service. That is the same thin-wrapper profile Apple rejected Nullfolio
 for under Guideline 4.2 (minimum functionality), and this account is fresh off a 5.6
 suspension. Do not submit it in this state.
-- [ ] Decide what makes Newsline genuinely app-like rather than an RSS list: the bias comparison is the differentiator, so build it out — side-by-side coverage of the same story across outlets, saved/followed stories, offline reading, notifications for developing stories.
+- [ ] Decide what makes Sidewise genuinely app-like rather than an RSS list: the bias comparison is the differentiator, so build it out — side-by-side coverage of the same story across outlets, saved/followed stories, offline reading, notifications for developing stories.
 - [ ] Re-measure before submitting. Nimble cleared the bar at ~1,700 lines of real UI.
 
 ## Shelved 2026-08-23 — remainder of the web+iOS build-out
@@ -152,7 +152,7 @@ Worker, API and test layers landed (see commit). Not started, in priority order:
       to Application Support, a stable `Story.id` (title is fragile — a re-cluster loses saves),
       local notifications via `BGAppRefreshTask` (no APNs, keeps DATA_NOT_COLLECTED), a WidgetKit
       target behind an App Group, and a Settings pane. `NewsService` needs splitting first, and
-      a protocol seam so `Newsline-Tests` can cover fetch/decode/error paths offline.
+      a protocol seam so `Sidewise-Tests` can cover fetch/decode/error paths offline.
       No Swift toolchain in the web container — this needs a Mac or a macOS CI runner.
 - [ ] CI: `.github/workflows/ci.yml` running `npm test` on push, a scheduled `npm run feeds`
       (it already exits non-zero on a stale feed), and a macOS job for `xcodegen && xcodebuild test`.

@@ -145,7 +145,7 @@ export async function mcp(req, load) {
       return reply({
         protocolVersion: params.protocolVersion || '2025-06-18',
         capabilities: { tools: {} },
-        serverInfo: { name: 'newsline', version: VERSION },
+        serverInfo: { name: 'sidewise', version: VERSION },
       });
     case 'notifications/initialized':
       return new Response(null, { status: 202, headers: CORS });
@@ -160,7 +160,7 @@ export async function mcp(req, load) {
       } catch (err) {
         // A tool blowing up is a tool result, not a transport error — an MCP client should
         // see the message and be able to retry, not get a dead connection.
-        return reply({ content: [{ type: 'text', text: `newsline: ${err.message}` }], isError: true });
+        return reply({ content: [{ type: 'text', text: `sidewise: ${err.message}` }], isError: true });
       }
       if (!result) {
         return json({ jsonrpc: '2.0', id, error: { code: -32602, message: `Unknown tool: ${params.name}` } });

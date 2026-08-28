@@ -1,4 +1,4 @@
-// newsline worker: fetch multi-outlet RSS, cluster same-story headlines, tag bias.
+// sidewise worker: fetch multi-outlet RSS, cluster same-story headlines, tag bias.
 // Serves four surfaces off one pooled feed pull: the web reader, /api/*, /mcp, and the
 // static site. The interesting logic lives in src/ so it can be tested without a Worker.
 
@@ -127,7 +127,7 @@ export default {
     } catch (err) {
       // Without this a throw anywhere in the pipeline returns a Workers 1101 page: HTML, no
       // CORS headers, opaque to every client we have.
-      console.error('newsline route error', url.pathname, err?.stack || err);
+      console.error('sidewise route error', url.pathname, err?.stack || err);
       const body = { error: 'Internal error', path: url.pathname };
       return url.pathname.startsWith('/api/') || url.pathname === '/mcp'
         ? json(body, { status: 500, headers: { 'cache-control': 'no-store' } })

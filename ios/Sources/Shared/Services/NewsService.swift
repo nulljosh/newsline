@@ -14,8 +14,8 @@ final class NewsService: ObservableObject {
 
     init() {
         let dir = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
-        cacheURL = dir.appendingPathComponent("newsline-feed.json")
-        savedURL = dir.appendingPathComponent("newsline-saved.json")
+        cacheURL = dir.appendingPathComponent("sidewise-feed.json")
+        savedURL = dir.appendingPathComponent("sidewise-saved.json")
         feed = try? JSONDecoder().decode(Feed.self, from: Data(contentsOf: cacheURL))
         saved = (try? JSONDecoder().decode([Story].self, from: Data(contentsOf: savedURL))) ?? []
     }
