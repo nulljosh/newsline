@@ -63,15 +63,17 @@ login — that was the "review detail field is missing" error). macOS archived, 
 `--version` AND `--build-number`, and they must match the pkg's real CFBundleVersion or the
 upload fails 90345 after committing.
 
-### Remaining before submit — per `asc validate`
-- [ ] **Age rating** — no CLI setter exists (`asc app-setup info set` has no age-rating flag).
-      Dashboard.
-- [ ] **App availability** — both `asc pricing availability create` and
-      `asc web apps availability create` are rejected (public API 400, web API 404
-      PATH_ERROR). Matches the known availability dead end. Dashboard.
-      **Drop CHN** when setting it: a news aggregator needs a Chinese publishing permit.
-- [ ] Attach the macOS build to version `4f714599-bf5a-42b2-9a9f-c353868feb76` once it
-      finishes processing (`asc versions attach-build`). Binary is already uploaded.
+### Ready for submission — one dashboard-only blocker left
+
+Age rating: DONE 2026-08-28 via CLI. Set **INFREQUENT_OR_MILD** across the news-app standard shape:
+`asc age-rating edit --app 6806028670 --all-none --violence-realistic INFREQUENT_OR_MILD --mature-suggestive INFREQUENT_OR_MILD --alcohol-tobacco-drug-use INFREQUENT_OR_MILD`. `unrestrictedWebAccess` is false (correct): app hands articles to Safari via `openURL`, not an in-app browser.
+
+**Remaining: app availability (dashboard-only, Blocked on Joshua).** Both CLI paths rejected:
+- `asc pricing availability create` rejects with "relationship 'territoryAvailabilities.territory' expects an included resource"
+- `asc web apps availability create` returns 404 PATH_ERROR even with live 2FA session
+Must set in App Store Connect → Pricing and Availability. **Drop CHN** — news apps in mainland China need an Internet Publishing License, same trap that cost Lexly two weeks.
+
+**DELIBERATELY NOT SUBMITTED 2026-08-28.** Sidewise is a brand-new app and seven apps are rejected under the active 4.3(a) spam wave (Talli, Curvely, Doorstock, NYC Survive, Sparkjar, Healstack, Lexly) with appeals pending. Submitting mid-wave is the exact trigger pattern and would undercut the replies filed the same day. Wait for Apple's 4.3(a) responses first.
 
 App Store link (live now, 404s until approved): https://apps.apple.com/app/id6806028670
 
