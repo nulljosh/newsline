@@ -75,7 +75,9 @@ export const TOOLS = [
 const clampLimit = (v, max = 200) =>
   (Number.isFinite(v) && v > 0 ? Math.min(Math.floor(v), max) : undefined);
 
-export async function callTool(name, args, load) {
+export async function callTool(name, rawArgs, load) {
+  // A JSON-RPC client may legitimately send `"arguments": null`; a destructure on that throws.
+  const args = rawArgs && typeof rawArgs === 'object' ? rawArgs : {};
   const { updated, items, health, degraded, stale } = await load();
   const limit = clampLimit(args.limit);
 
@@ -132,7 +134,10 @@ export async function mcp(req, load) {
     return json({ jsonrpc: '2.0', id: null, error: { code: -32600, message: 'Invalid Request' } }, { status: 400 });
   }
 
-  const { id = null, method, params = {} } = msg;
+  // `params = {}` only defaults on undefined, so an explicit `"params": null` — which is
+  // valid JSON-RPC — used to reach `params.protocolVersion` and throw a 500 at the client.
+  const { id = null, method } = msg;
+  const params = msg.params && typeof msg.params === 'object' ? msg.params : {};
   const reply = result => json({ jsonrpc: '2.0', id, result });
 
   switch (method) {

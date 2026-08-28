@@ -1,13 +1,13 @@
 # Newsline
 
-RSS news reader across 16 sources (incl. Hacker News, Fox, BBC, WSJ…). Flat **Latest** feed + Ground News-style bias view. `news.heyitsmejosh.com`.
+RSS news reader across the feeds in `src/feeds.js` (incl. Hacker News, Fox, BBC, WSJ…). Flat **Latest** feed + Ground News-style bias view. `news.heyitsmejosh.com`.
 
 ## Architecture
 
 Single Cloudflare Worker does everything. `worker.js` is routing + error handling only; the
 logic lives in `src/` (`feeds` `parse` `stories` `load` `mcp`) so it can be tested without a
 Worker runtime. `worker.js` re-exports all of it, so `check-feeds.mjs` and tests import one path.
-- Fetches 16 RSS feeds (`FEEDS` = `[outlet, bias, url, publisher?]` in `src/feeds.js`; add a source by appending a row — RSS 2.0 or Atom). `publisher` defaults to `outlet` and exists so one newsroom's two feeds (NY Post + NY Post Opinion) count as one voice, not two — counting outlets inflated bias bars and produced false blindspots. Run `npm run feeds` after adding one: it checks **recency**, not just item count, which is the only way to catch a "zombie" feed that still serves 200 OK from a frozen snapshot (CNN did exactly this for 3 years).
+- Fetches every RSS feed in `FEEDS` ( = `[outlet, bias, url, publisher?]` in `src/feeds.js`; add a source by appending a row — RSS 2.0 or Atom). `publisher` defaults to `outlet` and exists so one newsroom's two feeds (NY Post + NY Post Opinion) count as one voice, not two — counting outlets inflated bias bars and produced false blindspots. Run `npm run feeds` after adding one: it checks **recency**, not just item count, which is the only way to catch a "zombie" feed that still serves 200 OK from a frozen snapshot (CNN did exactly this for 3 years).
 - `parseItems` pulls title/link + a timestamp (`pubDate`/`dc:date`/`published`/`updated`, `ts=0` when absent).
 - Returns two views in one `/api/stories` JSON payload:
   - `latest` — flat reverse-chron across all sources (dateless sinks to bottom), the default reader view.
@@ -25,11 +25,29 @@ Never hardcode the outlet count in prose — it has drifted to 22/17/16 across f
 ## Develop
 
 ```
-npm test         # node --test test/*.test.mjs — 87 checks, no network
+npm test         # node --test test/*.test.mjs — 95 checks, no network
 npm run deploy   # wrangler deploy
 ```
 
 **Gotcha:** `~/.config/fish/secrets.fish` used to export `CLOUDFLARE_API_TOKEN` globally, which forces wrangler off OAuth into token mode — and that token lacks Workers scope, so every `wrangler login`/`deploy` failed. Fixed 2026-07-15: renamed to `CLOUDFLARE_DNS_TOKEN`. Don't re-add `CLOUDFLARE_API_TOKEN` to fish config.
+
+## Tests
+
+`test/` mirrors `src/`, one file per module, no network and no Worker runtime. Pure functions
+are called directly; `loadItems` takes injectable `cache`/`fetchImpl`/`now`/`feeds`/`waitUntil`
+deps, so the whole failure matrix runs in-process.
+
+Two things to know before writing more:
+
+- **The fake Cache API must clone on `match`.** The real one hands back a fresh `Response`
+  every time; a Map that returns the same object throws "Body has already been read" on the
+  second read, which looks like a product bug and is not one.
+- **`caches` does not exist outside Workers.** `loadItems` falls back to running uncached
+  rather than throwing a `ReferenceError`, and `test/load.test.mjs` pins that.
+
+Input guards are deliberate, not defensive noise: `decode`/`stripTags`/`parseItems`/`keywords`
+take third-party bytes, so a non-string is a dead feed, not a 500. `shape` tolerates a missing
+item list because a degraded pull can produce one. Don't strip these to "simplify".
 
 ## Roadmap
 

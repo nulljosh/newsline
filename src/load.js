@@ -79,6 +79,7 @@ const jsonResponse = (body, maxAge) => new Response(JSON.stringify(body), {
 });
 
 const readJSON = async (cache, key) => {
+  if (!cache) return null;
   try {
     const hit = await cache.match(key);
     return hit ? await hit.json() : null;
@@ -94,7 +95,9 @@ const readJSON = async (cache, key) => {
  */
 export async function loadItems(origin, ctx, deps = {}) {
   const {
-    cache = caches.default,
+    // `caches` only exists inside the Workers runtime. Outside it (tests, a Node harness) the
+    // pull should still work, just uncached, instead of throwing a ReferenceError.
+    cache = typeof caches !== 'undefined' ? caches.default : null,
     fetchImpl = fetch,
     now = Date.now(),
     feeds = FEEDS,
@@ -103,7 +106,7 @@ export async function loadItems(origin, ctx, deps = {}) {
 
   const key = name => new Request(`${origin}/__cache/${name}-${CACHE_VERSION}`);
 
-  const cached = await readJSON(cache, key('items'));
+  const cached = cache ? await readJSON(cache, key('items')) : null;
   if (cached) return cached;
 
   const { items, health } = await pullFeeds({ fetchImpl, feeds });
@@ -122,12 +125,12 @@ export async function loadItems(origin, ctx, deps = {}) {
       // clients (and /api/health) can still see exactly which feeds are down.
       payload = { updated: lastGood.updated, items: lastGood.items, health, degraded: true, stale: true };
     }
-    waitUntil(cache.put(key('items'), jsonResponse(payload, RETRY_TTL_S)));
-  } else {
+    if (cache) waitUntil(cache.put(key('items'), jsonResponse(payload, RETRY_TTL_S)));
+  } else if (cache) {
     waitUntil(cache.put(key('items'), jsonResponse(payload, FEED_TTL_S)));
     waitUntil(cache.put(key('last-good'), jsonResponse(payload, LAST_GOOD_TTL_S)));
   }
-  waitUntil(cache.put(key('seen'), jsonResponse({ seen }, SEEN_TTL_MS / 1000)));
+  if (cache) waitUntil(cache.put(key('seen'), jsonResponse({ seen }, SEEN_TTL_MS / 1000)));
 
   return payload;
 }

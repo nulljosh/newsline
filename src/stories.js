@@ -20,6 +20,7 @@ export const DEVELOPING_WINDOW_MS = 90 * 60 * 1000;
 const DEVELOPING_MIN_PUBLISHERS = 3;
 
 export function keywords(title) {
+  if (typeof title !== 'string') return new Set();
   return new Set(
     title.toLowerCase().replace(/[^a-z0-9 ]/g, ' ').split(/\s+/)
       .filter(w => w.length > 2 && !STOP.has(w)),
@@ -38,6 +39,7 @@ export function side(bias) {
 
 // flat reverse-chron reader across every source (dateless items sink to bottom)
 export function latest(items, cap = LATEST_CAP) {
+  if (!Array.isArray(items)) return [];
   return [...items].sort((a, b) => b.ts - a.ts).slice(0, cap);
 }
 
@@ -52,7 +54,7 @@ function toSource(item) {
 
 /// Which sides and how many *newsrooms* cover a story. Counting outlets instead of
 /// newsrooms let one publisher's two feeds masquerade as corroboration.
-export function coverage(sources) {
+export function coverage(sources = []) {
   const counts = { left: 0, center: 0, right: 0 };
   const seen = { left: new Set(), center: new Set(), right: new Set() };
   const publishers = new Set();
@@ -99,6 +101,7 @@ export function compare(story) {
 }
 
 export function cluster(items, now = Date.now()) {
+  if (!Array.isArray(items)) return [];
   // Seed each cluster with the newest headline so the cluster's title is the current wording
   // rather than whichever outlet happens to sit first in FEEDS.
   const ordered = [...items].sort((a, b) => b.ts - a.ts);
@@ -143,6 +146,8 @@ export function cluster(items, now = Date.now()) {
 // Clusters are filtered *after* clustering — narrowing items first would destroy the
 // cross-outlet grouping that makes the stories view worth anything.
 export function shape(items, opts = {}) {
+  // A degraded pull can hand us a missing `items`; callers still deserve a well-formed body.
+  if (!Array.isArray(items)) items = [];
   const {
     view = 'both', outlet, bias, blindspot, developing, q, limit,
     compare: withCompare, updated = Date.now(), now = updated,

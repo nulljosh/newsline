@@ -5,6 +5,7 @@ const ENTITIES = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ' }
 
 // Feeds double-escape freely; consumers should get real text, not &#8217; and &amp;.
 export function decode(s) {
+  if (typeof s !== 'string') return '';
   return s.replace(/&(?:#(\d+)|#x([0-9a-f]+)|([a-z]+));/gi, (m, dec, hex, name) => {
     if (dec) {
       const n = +dec;
@@ -23,6 +24,7 @@ export function decode(s) {
 /// which is how escaped markup leaks into a plain-text field. Two passes, then drop any
 /// stray angle brackets: this field is plain text, so it has no legitimate use for them.
 export function stripTags(html, max = 280) {
+  if (typeof html !== 'string') return '';
   let text = html;
   for (let pass = 0; pass < 2; pass++) {
     text = decode(text)
@@ -52,6 +54,7 @@ function image(block) {
 /// Only ever hand clients a link a browser can safely open. A feed is third-party input;
 /// `javascript:` and `data:` in a headline link are a real vector, not a hypothetical one.
 export function safeLink(link) {
+  if (typeof link !== 'string') return undefined;
   try {
     const u = new URL(link);
     return u.protocol === 'https:' || u.protocol === 'http:' ? u.href : undefined;
@@ -62,6 +65,8 @@ export function safeLink(link) {
 
 export function parseItems(xml, outlet, bias, publisher = outlet) {
   const items = [];
+  // A feed that answered with a non-string body (or nothing) is a dead feed, not a crash.
+  if (typeof xml !== 'string' || !xml) return items;
   // RSS uses <item> with a <link>text</link>; Atom uses <entry> with <link href="…"/>,
   // often several per entry (alternate / shorturl / related) — take the alternate.
   for (const m of xml.matchAll(/<(item|entry)\b[\s\S]*?<\/\1>/g)) {

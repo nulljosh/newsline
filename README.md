@@ -2,9 +2,14 @@
 
 # Newsline
 
-![version](https://img.shields.io/badge/version-v0.3.0-blue) ![license](https://img.shields.io/badge/license-MIT-green) [![GitHub](https://img.shields.io/badge/GitHub-nulljosh%2Fnewsline-black?logo=github)](https://github.com/nulljosh/newsline)
+![version](https://img.shields.io/badge/version-v0.4.0-blue) ![license](https://img.shields.io/badge/license-MIT-green) [![GitHub](https://img.shields.io/badge/GitHub-nulljosh%2Fnewsline-black?logo=github)](https://github.com/nulljosh/newsline)
 
-Headlines from 17 news outlets across the political spectrum, with left/center/right bias tags and **blindspot** detection — stories covered by only one side. Free, unauthenticated, no rate limit.
+Headlines from 16 feeds across 14 newsrooms, spanning the political spectrum, with
+left/center/right bias tags and **blindspot** detection: stories covered by only one side.
+Free, unauthenticated, no rate limit, no account.
+
+Two feeds from the same newsroom count as one voice, so a single publisher running an opinion
+section alongside its main feed cannot fake corroboration or bury a blindspot.
 
 Four ways in: a [web reader](https://news.heyitsmejosh.com), native [iPhone/iPad/Mac apps](https://news.heyitsmejosh.com/app), a JSON API, and an MCP server.
 
@@ -26,8 +31,13 @@ claude mcp add --transport http newsline https://news.heyitsmejosh.com/mcp
 
 | Tool | Params | Returns |
 |---|---|---|
-| `get_news` | `view`, `outlet`, `bias`, `q`, `limit` | Current headlines, flat or clustered by story |
+| `get_news` | `view`, `outlet`, `bias`, `developing`, `q`, `limit` | Current headlines, flat or clustered by story |
 | `get_blindspots` | `limit` | Only stories covered by a single political side |
+| `compare_coverage` | `q` (required), `limit` | One story as each side headlines it, plus the words unique to each |
+| `get_feed_health` | — | Which feeds answered, and whether the data served is complete or a stale fallback |
+
+`get_feed_health` is worth calling before you treat an empty or one-sided result as real: an
+outage and a quiet news day look identical otherwise.
 
 Stateless streamable HTTP, no auth. Works with any MCP client — Claude Desktop, Claude Code, Cursor.
 
@@ -41,8 +51,14 @@ Stateless streamable HTTP, no auth. Works with any MCP client — Claude Desktop
 | `outlet` | any outlet name, e.g. `Hacker News` | all |
 | `bias` | `left`, `center`, `right` | all |
 | `blindspot` | `true` | off |
-| `q` | substring match on headline text | none |
+| `developing` | `true` — three or more newsrooms in the last 90 minutes | off |
+| `compare` | `true` — attach the side-by-side breakdown to each story | off |
+| `q` | substring match on headline and summary text | none |
 | `limit` | 1–200 | 60 clusters / 120 headlines |
+
+Two more endpoints sit alongside it. `GET /api/health` reports every feed's status and answers
+**503** when more than half are down, so it can be pointed at a monitor as-is. `GET /api/sources`
+lists each feed with its bias, resolved side and parent newsroom.
 
 ```bash
 curl 'https://news.heyitsmejosh.com/api/stories?view=stories&blindspot=true'
@@ -72,7 +88,8 @@ CORS open to all origins. Feeds are re-pulled at most every 2 minutes; responses
 
 ## How it works
 
-One Cloudflare Worker (`worker.js`) polls 17 RSS feeds and serves the page, the API, and MCP off a single cached pull:
+One Cloudflare Worker (`worker.js`) polls every RSS feed in `src/feeds.js` and serves the page,
+the API and MCP off a single pooled pull:
 
 - **`latest`** — flat reverse-chronological feed across all sources.
 - **`stories`** — headlines clustered by title-keyword overlap, each source tagged left/center/right, one-sided clusters flagged `blindspot`.
@@ -94,11 +111,29 @@ Add one by appending `[outlet, bias, url]` to `FEEDS` at the top of `worker.js`.
 ## Develop
 
 ```
-npm test         # node test.mjs — parser, sort, cluster, shape filters
+npm test         # 95 checks, no network
+npm run feeds    # check every feed for freshness, not just a 200
 npm run deploy   # wrangler deploy
 ```
 
+`npm run feeds` is the one to run after touching `FEEDS`. It checks **recency**, which is the
+only way to catch a zombie feed: an endpoint that still answers 200 with well-formed XML whose
+newest item is two years old. CNN did exactly that for three years, and an item-count check
+never noticed.
+
 Cloudflare Workers + Workers Static Assets — one deploy serves the page, `/api/stories`, and `/mcp`.
+
+### Tests
+
+`test/` covers the four modules in `src/` with no network and no Worker runtime:
+
+| File | What it holds down |
+|---|---|
+| `parse.test.mjs` | Entity decoding, double-escaped summaries, CDATA and Atom shapes, and the rejection of `javascript:` and `data:` links |
+| `stories.test.mjs` | Clustering, the newsroom-not-feed counting rule behind blindspots, the developing window, and filter-after-cluster ordering |
+| `load.test.mjs` | Feed failure reporting, timeouts, the degraded/stale fallback, and the rule that a bad pull never overwrites the last good one |
+| `worker.test.mjs` | Query parsing and clamping, and that everything under `/api/` answers JSON with CORS, including 404s, 405s and 500s |
+| `mcp.test.mjs` | JSON-RPC framing, malformed input, and each tool's contract |
 
 Security: see [SECURITY.md](SECURITY.md).
 
