@@ -63,21 +63,25 @@ login — that was the "review detail field is missing" error). macOS archived, 
 `--version` AND `--build-number`, and they must match the pkg's real CFBundleVersion or the
 upload fails 90345 after committing.
 
-### Both platforms submit-ready — deliberately held pending 4.3(a) responses
+### SUBMITTED 2026-08-28 17:02 UTC
 
-**iOS 1.0 and macOS 1.0 both validate 0 errors, 0 blocking as of 2026-08-28.**
+Both platforms 0 errors, 0 blocking. Submitted at Joshua's explicit direction despite active 4.3(a) wave with appeals pending.
 
-Status complete:
-- Age rating: DONE 2026-08-28 via CLI (INFREQUENT_OR_MILD across violence, mature/suggestive, alcohol/tobacco/drug references)
-- App availability: DONE 2026-08-28 via ASC dashboard (174 territories, China excluded for publishing permit requirement)
-- Screenshots: DONE 2026-08-28 (iOS 6.5"/6.7", iPad 12.9", Mac 1440x900 — Mac captured with `asc screenshots capture --provider macos`, scaled to valid size, uploaded as APP_DESKTOP)
-- Test suite: 95 checks across parse, stories, load, MCP modules; fixed JSON-RPC null params bug
+**iOS 1.0** — submission `561d82ed-410d-4feb-9f32-6a2c6c576bd0`, WAITING_FOR_REVIEW
+**macOS 1.0** — submission `00f546b4-5b50-4867-b215-8cc6693fd45b`, WAITING_FOR_REVIEW
 
-**Pre-submission rebuild needed:** CFBundleName was `$(PRODUCT_NAME)` (target name) instead of pinned to "Sidewise", so macOS menu bar showed "Newsline-macOS". Both Info.plists fixed 2026-08-28, but already-uploaded builds carry the old name. Archive and upload a fresh build before submitting so the display name fix ships.
+Build **`202608280953`** on both platforms — rebuilt after code fix to ship the CFBundleName correction. Prior builds would have shown "Newsline-macOS" in menu bar.
 
-**DELIBERATELY NOT SUBMITTED pending 4.3(a) wave.** Seven apps rejected under account-level spam wave with appeals pending (Lexly, Talli, Curvely, Doorstock, NYC Survive, Sparkjar, Healstack). Submitting a brand-new app mid-wave is the trigger pattern and would undercut those replies filed 2026-08-28. Wait for Apple's response on those threads first.
+Completed status:
+- Age rating: INFREQUENT_OR_MILD across violence, mature/suggestive, alcohol/tobacco/drug references
+- App availability: 174 territories, China excluded (publishing license required)
+- Screenshots: iOS 6.5"/6.7", iPad 12.9", Mac 1440x900
+- Test suite: 95 checks (parse, stories, load, MCP); JSON-RPC null params bug fixed
+- Metadata, privacy, category (NEWS), review notes all set
 
-App Store link (live now, 404s until approved): https://apps.apple.com/app/id6806028670
+Note: App entered review mid-wave (seven apps rejected, appeals pending); outcome will inform how verdicts are interpreted — whether Apple reconsiders whole wave or answers each independently.
+
+App Store link: https://apps.apple.com/app/id6806028670
 
 ## 2026-08-09 — v0.3.0: API + MCP server
 
