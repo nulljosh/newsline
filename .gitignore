@@ -1,3 +1,5 @@
 .wrangler/
 .vercel/
 .DS_Store
+signing/
+.asc/artifacts/
