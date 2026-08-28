@@ -64,16 +64,12 @@ login — that was the "review detail field is missing" error). macOS archived, 
 upload fails 90345 after committing.
 
 ### Remaining before submit — per `asc validate`
-- [x] ~~Screenshots~~ — iPhone 6.5" + iPad 12.9" captured and uploaded 2026-08-27. Note the
-      iPhone 14 Plus (1284x2778) is rejected for the IPHONE_67 set, which wants 1290x2796;
-      6.5" alone satisfies Apple's iPhone requirement. Sources in fastlane/screenshots/en-CA.
 - [ ] **Age rating** — no CLI setter exists (`asc app-setup info set` has no age-rating flag).
       Dashboard.
 - [ ] **App availability** — both `asc pricing availability create` and
       `asc web apps availability create` are rejected (public API 400, web API 404
       PATH_ERROR). Matches the known availability dead end. Dashboard.
       **Drop CHN** when setting it: a news aggregator needs a Chinese publishing permit.
-- [x] ~~Review detail field~~ — fixed, `demoAccountRequired` set false both platforms.
 - [ ] Attach the macOS build to version `4f714599-bf5a-42b2-9a9f-c353868feb76` once it
       finishes processing (`asc versions attach-build`). Binary is already uploaded.
 
@@ -175,6 +171,4 @@ Done. 4 tools reusing the exact names and schemas of the existing `POST /mcp` se
 See `docs/API.md` for the full tool table, linked from the README.
 
 ## From Notes (imported 2026-08-27)
-- [x] **Sidewise ITMS-90345 Info.plist value mismatch — resolved.** The rejected delivery was the *macOS* upload at 14:20 on 2026-08-27 (binary CFBundleVersion `202608271411`, request declared `202608111200`). It has already been superseded: ASC now holds a matching iOS + macOS pair at build `202608271443`, both VALID and APP_STORE_ELIGIBLE, so no rebuild or re-upload was needed. Root cause was two sources of truth for the build number — `asc xcode version` writes `CURRENT_PROJECT_VERSION` into the *generated* `ios/Newsline.xcodeproj/project.pbxproj` (gitignored), while the upload request reads the checked-in `ios/project.yml`, which still said `202608111200`; the next `xcodegen generate` would have reverted the build number and reproduced the mismatch. Fixed by setting `CURRENT_PROJECT_VERSION: "202608271443"` in `ios/project.yml` and regenerating, so project.yml, the pbxproj, the shipped IPA and the uploaded builds all agree. Both 1.0 version records remain PREPARE_FOR_SUBMISSION.
-- [x] Added `LSApplicationCategoryType = public.app-category.news` to `ios/Sources/iOS/Info.plist` (macOS already had it) — this is the real cause of ITMS-90242, fixed preemptively before the next iOS submit.
 - [ ] Sidewise 1.0 is still not shipping: both the iOS and macOS 1.0 version records sit at PREPARE_FOR_SUBMISSION, never submitted. Builds `202608271443` (iOS + macOS) are VALID and APP_STORE_ELIGIBLE, so the binaries are ready — what's missing is the submission itself plus whatever metadata `asc validate` still flags.
