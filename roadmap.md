@@ -68,7 +68,9 @@ upload fails 90345 after committing.
 Age rating: DONE 2026-08-28 via CLI. Set **INFREQUENT_OR_MILD** across the news-app standard shape:
 `asc age-rating edit --app 6806028670 --all-none --violence-realistic INFREQUENT_OR_MILD --mature-suggestive INFREQUENT_OR_MILD --alcohol-tobacco-drug-use INFREQUENT_OR_MILD`. `unrestrictedWebAccess` is false (correct): app hands articles to Safari via `openURL`, not an in-app browser.
 
-**Remaining: app availability (dashboard-only, Blocked on Joshua).** Both CLI paths rejected:
+- [x] **App availability DONE 2026-08-28** — 174 territories, China mainland excluded (news apps need a Chinese Internet Publishing License). Set via the ASC dashboard; both `asc pricing availability create` and `asc web apps availability create` fail, so this is genuinely browser-only.
+- [ ] **macOS 1.0 blocker: screenshots not attached.** `asc validate --platform MAC_OS` reports `screenshots.required.any` — the Mac screenshots were captured but never uploaded to the version localization. Run `asc screenshots upload` before submitting macOS.
+- [ ] **iOS 1.0 is submit-ready (validate: 0 errors) but deliberately HELD** pending Apple's response on the 4.3(a) wave threads. Submitting a brand-new app mid-wave is the trigger pattern and would undercut the appeals filed 2026-08-28.
 - `asc pricing availability create` rejects with "relationship 'territoryAvailabilities.territory' expects an included resource"
 - `asc web apps availability create` returns 404 PATH_ERROR even with live 2FA session
 Must set in App Store Connect → Pricing and Availability. **Drop CHN** — news apps in mainland China need an Internet Publishing License, same trap that cost Lexly two weeks.
