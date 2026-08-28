@@ -63,18 +63,19 @@ login — that was the "review detail field is missing" error). macOS archived, 
 `--version` AND `--build-number`, and they must match the pkg's real CFBundleVersion or the
 upload fails 90345 after committing.
 
-### Ready for submission — one dashboard-only blocker left
+### Both platforms submit-ready — deliberately held pending 4.3(a) responses
 
-Age rating: DONE 2026-08-28 via CLI. Set **INFREQUENT_OR_MILD** across the news-app standard shape:
-`asc age-rating edit --app 6806028670 --all-none --violence-realistic INFREQUENT_OR_MILD --mature-suggestive INFREQUENT_OR_MILD --alcohol-tobacco-drug-use INFREQUENT_OR_MILD`. `unrestrictedWebAccess` is false (correct): app hands articles to Safari via `openURL`, not an in-app browser.
+**iOS 1.0 and macOS 1.0 both validate 0 errors, 0 blocking as of 2026-08-28.**
 
-- [ ] **macOS 1.0 blocker: screenshots not attached.** `asc validate --platform MAC_OS` reports `screenshots.required.any` — the Mac screenshots were captured but never uploaded to the version localization. Run `asc screenshots upload` before submitting macOS.
-- [ ] **iOS 1.0 is submit-ready (validate: 0 errors) but deliberately HELD** pending Apple's response on the 4.3(a) wave threads. Submitting a brand-new app mid-wave is the trigger pattern and would undercut the appeals filed 2026-08-28.
-- `asc pricing availability create` rejects with "relationship 'territoryAvailabilities.territory' expects an included resource"
-- `asc web apps availability create` returns 404 PATH_ERROR even with live 2FA session
-Must set in App Store Connect → Pricing and Availability. **Drop CHN** — news apps in mainland China need an Internet Publishing License, same trap that cost Lexly two weeks.
+Status complete:
+- Age rating: DONE 2026-08-28 via CLI (INFREQUENT_OR_MILD across violence, mature/suggestive, alcohol/tobacco/drug references)
+- App availability: DONE 2026-08-28 via ASC dashboard (174 territories, China excluded for publishing permit requirement)
+- Screenshots: DONE 2026-08-28 (iOS 6.5"/6.7", iPad 12.9", Mac 1440x900 — Mac captured with `asc screenshots capture --provider macos`, scaled to valid size, uploaded as APP_DESKTOP)
+- Test suite: 95 checks across parse, stories, load, MCP modules; fixed JSON-RPC null params bug
 
-**DELIBERATELY NOT SUBMITTED 2026-08-28.** Sidewise is a brand-new app and seven apps are rejected under the active 4.3(a) spam wave (Talli, Curvely, Doorstock, NYC Survive, Sparkjar, Healstack, Lexly) with appeals pending. Submitting mid-wave is the exact trigger pattern and would undercut the replies filed the same day. Wait for Apple's 4.3(a) responses first.
+**Pre-submission rebuild needed:** CFBundleName was `$(PRODUCT_NAME)` (target name) instead of pinned to "Sidewise", so macOS menu bar showed "Newsline-macOS". Both Info.plists fixed 2026-08-28, but already-uploaded builds carry the old name. Archive and upload a fresh build before submitting so the display name fix ships.
+
+**DELIBERATELY NOT SUBMITTED pending 4.3(a) wave.** Seven apps rejected under account-level spam wave with appeals pending (Lexly, Talli, Curvely, Doorstock, NYC Survive, Sparkjar, Healstack). Submitting a brand-new app mid-wave is the trigger pattern and would undercut those replies filed 2026-08-28. Wait for Apple's response on those threads first.
 
 App Store link (live now, 404s until approved): https://apps.apple.com/app/id6806028670
 
