@@ -81,7 +81,10 @@ export function parseItems(xml, outlet, bias, publisher = outlet) {
     const link = rawLink && safeLink(decode(rawLink.trim()));
     const summaryRaw = tag(block, 'description') || tag(block, 'summary');
     if (title && link) {
-      const clean = decode(title.trim()).replace(/\s+/g, ' ').trim();
+      // Titles land in innerHTML in reader.html and in the native readers, and decoding is
+      // what *creates* markup from a feed's `&lt;img onerror=...&gt;`. Strip here, in the one
+      // place every renderer's JSON comes from, rather than in each renderer.
+      const clean = stripTags(title, 200);
       if (!clean) continue;
       const summary = summaryRaw ? stripTags(summaryRaw) : '';
       const img = image(block);

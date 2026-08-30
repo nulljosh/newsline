@@ -120,3 +120,27 @@ test('parseItems returns [] for junk rather than throwing', () => {
     assert.deepEqual(parseItems(bad, 'E', 0), []);
   }
 });
+
+test('parseItems strips markup out of feed titles', () => {
+  // A hostile (or just sloppy) feed's title reaches innerHTML in reader.html and in the
+  // native readers. Decoding alone used to hand them real markup.
+  const xml = `<rss><channel>
+    <item>
+      <title>&lt;img src=x onerror=alert(1)&gt;Breaking</title>
+      <link>https://example.com/x</link>
+    </item>
+    <item>
+      <title><![CDATA[<script>evil()</script>Also breaking]]></title>
+      <link>https://example.com/y</link>
+    </item>
+  </channel></rss>`;
+  const items = parseItems(xml, 'Outlet', 'center');
+  assert.equal(items.length, 2);
+  assert.equal(items[0].title, 'Breaking');
+  assert.equal(items[1].title, 'Also breaking');
+  for (const it of items) {
+    assert.ok(!it.title.includes('<'), it.title);
+    assert.ok(!it.title.includes('>'), it.title);
+    assert.ok(!/onerror|script/i.test(it.title), it.title);
+  }
+});
