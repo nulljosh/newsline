@@ -130,11 +130,6 @@ suspension. Do not submit it in this state.
 
 Worker, API and test layers landed (see commit). Not started, in priority order:
 
-- [ ] **`public/reader.html` rewrite.** It has a live stored-XSS hole: `x.title`, `x.link` and
-      `s.title` go into `innerHTML` unescaped (L107-108, 135, 143) and `decode()` actively turns
-      `&lt;` back into `<`. Feed titles are third-party input. Build DOM nodes instead of strings.
-      `safeLink()` in `src/parse.js` now blocks `javascript:` links at the source, which covers
-      the href half, but the title half is still open. **Do this one first.**
 - [ ] Extract the reader's inline JS to `public/reader.js` so it can be unit-tested in Node,
       then add `test/reader.test.mjs` (escaping, filter state, timeAgo).
 - [ ] PWA layer: `manifest.webmanifest`, a service worker caching the shell + last payload,
