@@ -173,3 +173,9 @@ See `docs/API.md` for the full tool table, linked from the README.
 
 ## From Notes (imported 2026-08-27)
 - [ ] Sidewise 1.0 is still not shipping: both the iOS and macOS 1.0 version records sit at PREPARE_FOR_SUBMISSION, never submitted. Builds `202608271443` (iOS + macOS) are VALID and APP_STORE_ELIGIBLE, so the binaries are ready — what's missing is the submission itself plus whatever metadata `asc validate` still flags.
+
+## Cold-pull latency (measured 2026-08-31)
+`/api/stories` cold = 2.75s, warm = 0.10s. The 120s Cache-API TTL means one caller per colo
+per 2 min eats the full 16-feed fan-out. A cron warm only fixes the colo the cron lands in
+(caches.default is per-datacenter), so the real fix is KV- or DO-backed pooling, not a trigger.
+Not worth it at current traffic — revisit if the reader gets real users.
