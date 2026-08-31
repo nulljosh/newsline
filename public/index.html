@@ -266,5 +266,26 @@ fetch('/api/stories').then(function (r) { return r.json(); }).then(function (dat
 </script>
 
   <script>if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('/sw.js'));</script>
+
+<!-- share -->
+<style>
+#share-btn{position:fixed;right:16px;bottom:16px;z-index:9999;border:1px solid rgba(128,128,128,.35);
+background:Canvas;color:CanvasText;font:inherit;font-size:14px;padding:8px 14px;border-radius:999px;
+cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+#share-btn:hover{border-color:rgba(128,128,128,.6)}
+@media print{#share-btn{display:none}}
+</style>
+<button id="share-btn" type="button">Share</button>
+<script>
+(function(){
+  var b=document.getElementById('share-btn');
+  b.addEventListener('click',function(){
+    var d={title:document.title,text:(document.querySelector('meta[name=description]')||{}).content||'',url:location.href};
+    if(navigator.share)navigator.share(d).catch(function(){});
+    else if(navigator.clipboard)navigator.clipboard.writeText(location.href).then(function(){
+      b.textContent='Link copied';setTimeout(function(){b.textContent='Share'},1600);});
+  });
+})();
+</script>
 </body>
 </html>

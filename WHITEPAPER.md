@@ -61,6 +61,28 @@ SwiftUI iOS and macOS readers hit the same `/api/stories` endpoint. Built
 2026-08-11, not yet submitted to the App Store. The same feed API also backs
 Inkpress's seeded subscription list and the `/news` briefing skill.
 
+## Planned: Inverted-Index Clustering
+
+The greedy pass described above compares each incoming headline against every
+cluster built so far. With one merge threshold and no index that is O(n·k)
+Jaccard computations per refresh, and — more importantly — the result depends
+on arrival order, because a cluster's keyword set grows as it absorbs items and
+therefore matches progressively more loosely.
+
+Two changes address both at once. First, an inverted index from keyword to
+cluster ids: a headline only gets compared against clusters that share at least
+one keyword with it, which is a small fraction of the total and removes the
+scan. Second, treat the pass as connected components rather than as first-match
+assignment — score every candidate pair, keep the edges above threshold, and
+run union-find over them. Components do not depend on the order the edges are
+discovered, so the same set of headlines produces the same clusters regardless
+of which outlet published first.
+
+Cluster titles stay chosen the way they are now (newest headline in the
+component wins). Beyond that sits the embeddings upgrade, where keyword overlap
+is replaced by cosine similarity over sentence vectors and the same union-find
+step runs unchanged on top.
+
 ## License
 
 MIT 2026, Joshua Trommel
