@@ -27,6 +27,7 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #121316;
+    --link: #6787a4;
     --bg2: #1a1b1f;
     --text: #ececf0;
     --text2: rgba(236,236,240,0.62);
@@ -54,7 +55,7 @@ body {
   text-rendering: optimizeLegibility;
 }
 ::selection { background: var(--accent); color: #fff; }
-a { color: var(--accent); text-decoration: none; }
+a { color: var(--link, var(--accent)); text-decoration: none; }
 a:hover { text-decoration: underline; }
 img { max-width: 100%; }
 
@@ -130,7 +131,7 @@ img { max-width: 100%; }
 .btn-primary { background: var(--accent); color: #fff; }
 .btn-primary:hover { opacity: 0.9; }
 .btn-outline { border-color: var(--border); color: var(--text); background: var(--bg); }
-.btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+.btn-outline:hover { border-color: var(--link, var(--accent)); color: var(--link, var(--accent)); }
 
 section { padding: 4rem 0; }
 .features h2, .closing h2 {
