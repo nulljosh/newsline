@@ -11,7 +11,7 @@ Free, unauthenticated, no rate limit, no account.
 Two feeds from the same newsroom count as one voice, so a single publisher running an opinion
 section alongside its main feed cannot fake corroboration or bury a blindspot.
 
-Four ways in: a [web reader](https://news.heyitsmejosh.com), native [iPhone/iPad/Mac apps](https://news.heyitsmejosh.com/app), a JSON API, and an MCP server.
+Four ways in: a [web reader](https://sidewise.heyitsmejosh.com), native [iPhone/iPad/Mac apps](https://sidewise.heyitsmejosh.com/app), a JSON API, and an MCP server.
 
 ## Apps
 
@@ -26,7 +26,7 @@ xcodebuild -scheme Sidewise-iOS -destination 'generic/platform=iOS Simulator' bu
 ## MCP
 
 ```
-claude mcp add --transport http sidewise https://news.heyitsmejosh.com/mcp
+claude mcp add --transport http sidewise https://sidewise.heyitsmejosh.com/mcp
 ```
 
 | Tool | Params | Returns |
@@ -43,7 +43,7 @@ Stateless streamable HTTP, no auth. Works with any MCP client — Claude Desktop
 
 ## API
 
-`GET https://news.heyitsmejosh.com/api/stories` — every parameter is optional.
+`GET https://sidewise.heyitsmejosh.com/api/stories` — every parameter is optional.
 
 | Param | Values | Default |
 |---|---|---|
@@ -61,8 +61,8 @@ Two more endpoints sit alongside it. `GET /api/health` reports every feed's stat
 lists each feed with its bias, resolved side and parent newsroom.
 
 ```bash
-curl 'https://news.heyitsmejosh.com/api/stories?view=stories&blindspot=true'
-curl 'https://news.heyitsmejosh.com/api/stories?view=latest&outlet=Hacker%20News&limit=10'
+curl 'https://sidewise.heyitsmejosh.com/api/stories?view=stories&blindspot=true'
+curl 'https://sidewise.heyitsmejosh.com/api/stories?view=latest&outlet=Hacker%20News&limit=10'
 ```
 
 ```json
@@ -84,7 +84,7 @@ curl 'https://news.heyitsmejosh.com/api/stories?view=latest&outlet=Hacker%20News
 }
 ```
 
-CORS open to all origins. Feeds are re-pulled at most every 2 minutes; responses themselves are `no-store` (see below). `ts` is epoch ms, or `0` when the feed published no date (those sort to the bottom). Full spec: [`openapi.yaml`](https://news.heyitsmejosh.com/openapi.yaml) · orientation for agents: [`llms.txt`](https://news.heyitsmejosh.com/llms.txt).
+CORS open to all origins. Feeds are re-pulled at most every 2 minutes; responses themselves are `no-store` (see below). `ts` is epoch ms, or `0` when the feed published no date (those sort to the bottom). Full spec: [`openapi.yaml`](https://sidewise.heyitsmejosh.com/openapi.yaml) · orientation for agents: [`llms.txt`](https://sidewise.heyitsmejosh.com/llms.txt).
 
 ## How it works
 

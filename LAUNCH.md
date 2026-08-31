@@ -29,11 +29,11 @@ covering the same event, tags each source left/center/right, and flags a story a
 side isn't telling you" view — the thing Ground News charges a subscription for. This is
 free and unauthenticated.
 
-    curl 'https://news.heyitsmejosh.com/api/stories?view=stories&blindspot=true'
+    curl 'https://sidewise.heyitsmejosh.com/api/stories?view=stories&blindspot=true'
 
 It's also an MCP server, so you can hand it to an agent directly:
 
-    claude mcp add --transport http sidewise https://news.heyitsmejosh.com/mcp
+    claude mcp add --transport http sidewise https://sidewise.heyitsmejosh.com/mcp
 
 Two tools: `get_news` (filter by outlet, bias, keyword) and `get_blindspots`.
 
@@ -58,7 +58,7 @@ Source: https://github.com/nulljosh/sidewise
 
 I put an MCP server in front of 17 news RSS feeds.
 
-    claude mcp add --transport http sidewise https://news.heyitsmejosh.com/mcp
+    claude mcp add --transport http sidewise https://sidewise.heyitsmejosh.com/mcp
 
 Two tools. `get_news` filters current headlines by outlet, political lean, or keyword.
 `get_blindspots` returns stories where every outlet covering them is on the same side of

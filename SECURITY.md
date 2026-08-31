@@ -9,7 +9,7 @@ bounty and no formal SLA.
 
 ## Supported versions
 
-Only the deployed version at `news.heyitsmejosh.com` and the tip of `main` are supported.
+Only the deployed version at `sidewise.heyitsmejosh.com` and the tip of `main` are supported.
 
 ## Scope
 
@@ -28,4 +28,4 @@ Worth reporting:
 Not in scope: the political bias scores are hand-assigned editorial judgement, not a
 security issue. Disagreements about them belong in an issue, not a security report.
 
-Machine-readable contact: [`/.well-known/security.txt`](https://news.heyitsmejosh.com/.well-known/security.txt)
+Machine-readable contact: [`/.well-known/security.txt`](https://sidewise.heyitsmejosh.com/.well-known/security.txt)

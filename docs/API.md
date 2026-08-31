@@ -28,7 +28,7 @@ This page is the map across all three surfaces; those two are the spec for one o
 
 ## 1. REST — `GET /api/*`
 
-Base: `https://news.heyitsmejosh.com`. No API key, no rate limit, CORS open to all origins.
+Base: `https://sidewise.heyitsmejosh.com`. No API key, no rate limit, CORS open to all origins.
 
 - `GET /api/stories` — headlines. Query params: `view` (`latest`/`stories`/`both`),
   `outlet`, `bias` (`left`/`center`/`right`), `blindspot`, `developing`, `q`, `limit`.
@@ -49,7 +49,7 @@ Stateless streamable-HTTP MCP server, implemented in `src/mcp.js`. Supports `ini
 `notifications/initialized`, `ping`, `tools/list`, `tools/call`.
 
 ```
-claude mcp add --transport http sidewise https://news.heyitsmejosh.com/mcp
+claude mcp add --transport http sidewise https://sidewise.heyitsmejosh.com/mcp
 ```
 
 Tool list (`TOOLS` in `src/mcp.js`) and dispatch (`callTool`) are the canonical source for

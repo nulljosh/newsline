@@ -27,7 +27,7 @@ Before submitting, in order:
 - [ ] Accept the Paid Apps Agreement if still unaccepted (silently blocks all submits).
 - [ ] Screenshots (iPhone 6.5"/6.7", iPad 12.9", Mac) — see `appstore-screenshots` skill.
 - [ ] Metadata + App Privacy (answer DATA_NOT_COLLECTED), privacy URL
-      `https://news.heyitsmejosh.com/privacy`, marketing URL `https://news.heyitsmejosh.com/app`.
+      `https://sidewise.heyitsmejosh.com/privacy`, marketing URL `https://sidewise.heyitsmejosh.com/app`.
 - [ ] Review notes must describe the app-only functionality (offline cache, saved stories,
       bias filtering) — this is a native client over an owned API, not a web wrapper, and the
       5.6 letter requires spelling that out.
@@ -36,7 +36,7 @@ Before submitting, in order:
 ## 2026-08-27 — App Store: shipped as **Sidewise**, ASC `6806028670`
 
 "Sidewise" is **taken** on the App Store (so are Blindspot, Newsprism, Crosswire, Newsarc).
-The app ships as **Sidewise**; the repo, Worker, API, MCP server and news.heyitsmejosh.com
+The app ships as **Sidewise**; the repo, Worker, API, MCP server and sidewise.heyitsmejosh.com
 keep the sidewise name — same split as spine/Bookrank and echo/Voxprint.
 
 The 5.6 freeze this was waiting on lifted 2026-08-18. It was never the blocker after that

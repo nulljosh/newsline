@@ -5,7 +5,7 @@
 Sidewise is an RSS news reader across 15 sources with a Ground News-style bias
 view: same-story headlines clustered together, tagged left/center/right, with
 blindspot detection for stories only one side covers. Live at
-[news.heyitsmejosh.com](https://news.heyitsmejosh.com).
+[sidewise.heyitsmejosh.com](https://sidewise.heyitsmejosh.com).
 
 This paper leads with the clustering algorithm. Everything else is supporting
 detail.

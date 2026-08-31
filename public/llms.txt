@@ -18,7 +18,7 @@ rough lean, not a measurement.
 
 ## API
 
-Base: https://news.heyitsmejosh.com
+Base: https://sidewise.heyitsmejosh.com
 
 - `GET /api/stories` — headlines. All parameters optional.
   - `view` — `latest` (flat feed), `stories` (clustered), or `both`. Default `both`.
@@ -37,10 +37,10 @@ sources out of them — a cluster's whole value is the cross-outlet comparison.
 ### Examples
 
 ```
-curl 'https://news.heyitsmejosh.com/api/stories'
-curl 'https://news.heyitsmejosh.com/api/stories?view=latest&outlet=Hacker%20News&limit=10'
-curl 'https://news.heyitsmejosh.com/api/stories?view=stories&blindspot=true'
-curl 'https://news.heyitsmejosh.com/api/stories?view=latest&bias=right&q=budget'
+curl 'https://sidewise.heyitsmejosh.com/api/stories'
+curl 'https://sidewise.heyitsmejosh.com/api/stories?view=latest&outlet=Hacker%20News&limit=10'
+curl 'https://sidewise.heyitsmejosh.com/api/stories?view=stories&blindspot=true'
+curl 'https://sidewise.heyitsmejosh.com/api/stories?view=latest&bias=right&q=budget'
 ```
 
 ### Response
@@ -69,10 +69,10 @@ to the bottom of `latest`.
 
 ## MCP
 
-Streamable HTTP endpoint: https://news.heyitsmejosh.com/mcp
+Streamable HTTP endpoint: https://sidewise.heyitsmejosh.com/mcp
 
 ```
-claude mcp add --transport http newsline https://news.heyitsmejosh.com/mcp
+claude mcp add --transport http newsline https://sidewise.heyitsmejosh.com/mcp
 ```
 
 Tools:
@@ -90,8 +90,8 @@ New York Post Opinion, Vancouver Sun, The Province.
 
 ## Optional
 
-- OpenAPI spec: https://news.heyitsmejosh.com/openapi.yaml
+- OpenAPI spec: https://sidewise.heyitsmejosh.com/openapi.yaml
 - Source: https://github.com/nulljosh/newsline
-- Security contact: https://news.heyitsmejosh.com/.well-known/security.txt
+- Security contact: https://sidewise.heyitsmejosh.com/.well-known/security.txt
 - License: MIT. Headlines and links belong to their publishers; Newsline stores nothing and
   links out to the original article.

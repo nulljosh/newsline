@@ -70,7 +70,7 @@ struct ContentView: View {
                 }
             case .latest:
                 ForEach(latestSources) { source in
-                    Link(destination: source.url ?? URL(string: "https://news.heyitsmejosh.com")!) {
+                    Link(destination: source.url ?? URL(string: "https://sidewise.heyitsmejosh.com")!) {
                         SourceRow(source: source)
                     }
                 }

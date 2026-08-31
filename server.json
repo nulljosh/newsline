@@ -11,7 +11,7 @@
   "remotes": [
     {
       "type": "streamable-http",
-      "url": "https://news.heyitsmejosh.com/mcp"
+      "url": "https://sidewise.heyitsmejosh.com/mcp"
     }
   ]
 }

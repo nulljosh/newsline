@@ -8,7 +8,7 @@ final class NewsService: ObservableObject {
     /// Story titles the user saved. Persisted so saves survive a relaunch.
     @Published private(set) var saved: [Story] = []
 
-    private let endpoint = URL(string: "https://news.heyitsmejosh.com/api/stories")!
+    private let endpoint = URL(string: "https://sidewise.heyitsmejosh.com/api/stories")!
     private let cacheURL: URL
     private let savedURL: URL
 

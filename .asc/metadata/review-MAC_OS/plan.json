@@ -53,7 +53,7 @@
         "version": "1.0",
         "field": "marketingUrl",
         "reason": "field exists locally but not remotely",
-        "to": "https://news.heyitsmejosh.com/app"
+        "to": "https://sidewise.heyitsmejosh.com/app"
       },
       {
         "key": "version:1.0:en-CA:promotionalText",
@@ -71,7 +71,7 @@
         "version": "1.0",
         "field": "supportUrl",
         "reason": "field exists locally but not remotely",
-        "to": "https://news.heyitsmejosh.com/app"
+        "to": "https://sidewise.heyitsmejosh.com/app"
       }
     ],
     "updates": [],

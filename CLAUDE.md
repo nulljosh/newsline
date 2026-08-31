@@ -1,6 +1,6 @@
 # Sidewise
 
-RSS news reader across the feeds in `src/feeds.js` (incl. Hacker News, Fox, BBC, WSJ…). Flat **Latest** feed + Ground News-style bias view. `news.heyitsmejosh.com`.
+RSS news reader across the feeds in `src/feeds.js` (incl. Hacker News, Fox, BBC, WSJ…). Flat **Latest** feed + Ground News-style bias view. `sidewise.heyitsmejosh.com`.
 
 ## Architecture
 
