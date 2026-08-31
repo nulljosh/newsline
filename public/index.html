@@ -160,6 +160,9 @@ section { padding: 4rem 0; }
 footer { padding: 2.5rem 0 3.5rem; text-align: center; font-size: 0.9rem; color: var(--text2); }
 footer p + p { margin-top: 0.35rem; }
 </style>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
 </head>
 <body>
 
@@ -261,5 +264,6 @@ fetch('/api/stories').then(function (r) { return r.json(); }).then(function (dat
 }).catch(function () {});
 </script>
 
+  <script>if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('/sw.js'));</script>
 </body>
 </html>

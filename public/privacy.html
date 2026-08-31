@@ -13,6 +13,10 @@
   p, li { color: var(--text2); }
   a { color: var(--accent); }
 </style>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#1f4e79">
+  <link rel="apple-touch-icon" href="/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
 </head>
 <body>
 <h1>Privacy Policy</h1>
@@ -42,5 +46,6 @@ under 13.</p>
 <a href="mailto:trommatic@icloud.com">trommatic@icloud.com</a>.</p>
 
 <p><a href="/">Back to Sidewise</a></p>
+  <script>if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('/sw.js'));</script>
 </body>
 </html>

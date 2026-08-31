@@ -49,6 +49,10 @@
   footer .links { margin-top: .8rem; }
   footer .links a { margin-right: .9rem; white-space: nowrap; }
 </style>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#1f4e79">
+  <link rel="apple-touch-icon" href="/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
 </head>
 <body>
 <h1>Sidewise</h1>
@@ -172,5 +176,6 @@ fetch(API).then(r => r.json()).then(({ updated, stories, latest }) => {
 });
 </script>
 <script src="webmcp.js"></script>
+  <script>if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('/sw.js'));</script>
 </body>
 </html>
