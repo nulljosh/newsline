@@ -149,8 +149,6 @@ Worker, API and test layers landed (see commit). Not started, in priority order:
       target behind an App Group, and a Settings pane. `NewsService` needs splitting first, and
       a protocol seam so `Sidewise-Tests` can cover fetch/decode/error paths offline.
       No Swift toolchain in the web container — this needs a Mac or a macOS CI runner.
-- [ ] CI: `.github/workflows/ci.yml` running `npm test` on push, a scheduled `npm run feeds`
-      (it already exits non-zero on a stale feed), and a macOS job for `xcodegen && xcodebuild test`.
 - [ ] Doc drift: `/app.html` links labelled "Reader" point at `/`, which has been the marketing
       page since 8af897b. README/llms.txt/openapi/server.json still say 17 outlets; `/api/sources`
       now serves the real number, so point them at it.
