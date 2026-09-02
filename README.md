@@ -35,7 +35,7 @@ claude mcp add --transport http sidewise https://sidewise.heyitsmejosh.com/mcp
 | `get_news` | `view`, `outlet`, `bias`, `developing`, `q`, `limit` | Current headlines, flat or clustered by story |
 | `get_blindspots` | `limit` | Only stories covered by a single political side |
 | `compare_coverage` | `q` (required), `limit` | One story as each side headlines it, plus the words unique to each |
-| `get_feed_health` | — | Which feeds answered, and whether the data served is complete or a stale fallback |
+| `get_feed_health` |: | Which feeds answered, and whether the data served is complete or a stale fallback |
 
 Call `get_feed_health` before you trust an empty or one-sided result. An outage and a quiet
 news day look the same otherwise.
