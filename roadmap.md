@@ -179,3 +179,8 @@ See `docs/API.md` for the full tool table, linked from the README.
 per 2 min eats the full 16-feed fan-out. A cron warm only fixes the colo the cron lands in
 (caches.default is per-datacenter), so the real fix is KV- or DO-backed pooling, not a trigger.
 Not worth it at current traffic, revisit if the reader gets real users.
+
+## 2026-09-02 macOS 1.0 REJECTED
+- ASC shows MAC_OS 1.0 REJECTED, submission 00f546b4 UNRESOLVED_ISSUES. iOS 1.0 still WAITING_FOR_REVIEW.
+- Rejection reason unread: `asc web` login has 503'd at signin init for a week; Chrome ASC session also logged out (authResult=FAILED). Needs Joshua to sign in to ASC manually and paste the Resolution Center message.
+- Likely 4.3(a) like the other seven apps; do not resubmit, reply in Resolution Center.
