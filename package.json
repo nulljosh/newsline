@@ -1,6 +1,7 @@
 {
   "name": "sidewise",
   "version": "0.4.0",
+  "description": "Reads 16 feeds across the political spectrum and flags stories only one side is covering.",
   "type": "module",
   "private": true,
   "scripts": {
