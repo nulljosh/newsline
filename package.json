@@ -1,8 +1,14 @@
 {
   "name": "sidewise",
+  "license": "MIT",
   "version": "0.4.0",
   "description": "Reads 16 feeds across the political spectrum and flags stories only one side is covering.",
-  "keywords": ["news-aggregator", "media-bias", "rss", "journalism"],
+  "keywords": [
+    "news-aggregator",
+    "media-bias",
+    "rss",
+    "journalism"
+  ],
   "type": "module",
   "private": true,
   "scripts": {
