@@ -150,8 +150,9 @@ Worker, API and test layers landed (see commit). Not started, in priority order:
       a protocol seam so `Sidewise-Tests` can cover fetch/decode/error paths offline.
       No Swift toolchain in the web container, this needs a Mac or a macOS CI runner.
 - [ ] Doc drift: `/app.html` links labelled "Reader" point at `/`, which has been the marketing
-      page since 8af897b. README/llms.txt/openapi/server.json still say 17 outlets; `/api/sources`
-      now serves the real number, so point them at it.
+      page since 8af897b. Needs checking against the actual worker routing, not yet verified.
+      (Outlet-count drift in README/llms.txt/openapi/server.json fixed 2026-09-04, all now say 16,
+      matching FEEDS.length.)
 
 ## Ingested 2026-08-24
 

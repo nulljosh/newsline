@@ -20,7 +20,7 @@ Alternates:
 
 **Body:**
 
-I built a small news API that pulls 17 outlets across the political spectrum and does two
+I built a small news API that pulls 16 outlets across the political spectrum and does two
 things with them.
 
 The first is a flat feed. The second is the interesting one: it clusters headlines that are

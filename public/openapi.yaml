@@ -2,7 +2,7 @@ openapi: 3.1.0
 info:
   title: Newsline
   version: 0.3.0
-  summary: Headlines from 17 outlets with political bias tags and blindspot detection.
+  summary: Headlines from 16 outlets with political bias tags and blindspot detection.
   description: |
     A free, unauthenticated JSON API for current news headlines across the political
     spectrum. Every source carries a bias score from -2 (left) to +2 (right); 0 is center
